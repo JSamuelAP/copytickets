@@ -26,7 +26,7 @@
 </head>
 <body>
 <header>
-  <?php include(APPPATH . 'Views/partials/navbar.php'); ?>
+  <?php include(APPPATH . './Views/partials/navbar.php'); ?>
 </header>
 <main class="container">
   <?= $this->renderSection('contenido') ?>
