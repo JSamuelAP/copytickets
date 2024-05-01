@@ -10,10 +10,11 @@
             <h1 class="mb-5">Inicia sesión</h1>
             <form method="post" action="login">
                 <div class="mb-3">
-                    <input type="email" class="form-control form-control-lg" id="email" placeholder="Email" name="email">
+                    <input type="email" class="form-control form-control-lg" placeholder="Email" name="email" required>
                 </div>
                 <div class="mb-3">
-                    <input type="password" class="form-control form-control-lg" id="password" placeholder="Contraseña" name="password">
+                    <input type="password" class="form-control form-control-lg" placeholder="Contraseña"
+                           name="password" required>
                 </div>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary btn-lg">Iniciar sesión</button>
