@@ -11,6 +11,11 @@
             href="<?= base_url('vendor/twbs/bootstrap/dist/css/bootstrap.min.css') ?>"
             rel="stylesheet"
     >
+    <!-- Bootstrap Icons -->
+    <link
+            href="<?= base_url('vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css') ?>"
+            rel="stylesheet"
+    >
     <style>
         /* TODO: Personalizar el color primario como rosa */
         /*https://getbootstrap.com/docs/5.3/components/buttons/#variables*/

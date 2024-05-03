@@ -2,9 +2,15 @@
 
 namespace  App\Controllers;
 
-class Crud_Ventas extends BaseController{
+class Crud_Eventos extends BaseController{
     public function __construct()
     {
+    }
+
+    function contMostrar_Eventos() {
+      $data = ['titulo' => 'Eventos | CopyTickets 🎫'];
+      /* TODO: obtener los eventos y pasarselos a la vista */
+      return view('eventos/index', $data);
     }
 
     function contGenerate_Eventos(){
