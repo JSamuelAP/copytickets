@@ -10,6 +10,11 @@ class Crud_User extends  BaseController
     {
     }
 
+    public function organizador_perfil() {
+      $data = ['titulo' => 'Perfil organizador | CopyTickets 🎫'];
+      return view('usuarios/organizador-perfil.php', $data);
+    }
+
     function contInsert_User(){
         try{
             $data = array(
