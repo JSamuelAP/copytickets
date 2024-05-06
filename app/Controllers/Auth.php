@@ -17,4 +17,14 @@ class Auth extends BaseController
     $data = ['titulo' => 'Signup | CopyTickets 🎫'];
     return view('auth/signup', $data);
   }
+
+  public function pruebalogin()
+  {
+    session_start();
+    if (isset($_SESSION['email'])) {
+      echo $_SESSION;
+    } else {
+      echo "No hay usuario logeado";
+    }
+  }
 }

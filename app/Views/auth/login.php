@@ -8,7 +8,7 @@
         </div>
         <div class="col-12 col-md-6">
             <h1 class="mb-5">Inicia sesión</h1>
-            <form method="post" action="login">
+            <form id="LoginUsuario" method="post" action="<?= base_url('public/Crud_User/ValidandoDatos') ?>">
                 <div class="mb-3">
                     <input type="email" class="form-control form-control-lg" placeholder="Email" name="email" required>
                 </div>
@@ -24,4 +24,5 @@
         </div>
     </div>
 </div>
+
 <?= $this->endSection() ?>
