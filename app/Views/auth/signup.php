@@ -31,14 +31,14 @@
                         <p class="mb-0">Tipo de cuenta</p>
                         <div class="d-flex">
                             <div class="form-check me-3">
-                                <input class="form-check-input" type="radio" name="rol" id="flexRadioDefault1"
+                                <input class="form-check-input" type="radio" name="rol" id="flexRadioDefault1" value="1"
                                     checked>
                                 <label class="form-check-label" for="flexRadioDefault1">
                                     Cliente
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="rol" id="flexRadioDefault2">
+                                <input class="form-check-input" type="radio" name="rol" id="flexRadioDefault2" value="2">
                                 <label class="form-check-label" for="flexRadioDefault2">
                                     Organizador
                                 </label>

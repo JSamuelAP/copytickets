@@ -3,6 +3,7 @@
 namespace  App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\Usuario_Model;
+use CodeIgniter\Session\SessionInterface;
 
 
 class Crud_User extends  BaseController
@@ -20,18 +21,32 @@ class Crud_User extends  BaseController
             $resp = $this->usuario->Login($data['email'], $data['password']);
             if(isset($resp) > 0){
                 $_SESSION['datos'] = $resp;
+                if($_SESSION['datos']['rol'] == 1){
+                    return redirect()->to('/');
+                }else if($_SESSION['datos']['rol'] == 2){
+                    return redirect()->to('public/organizador/perfil');
+                } 
             }else{
                 throw new \Exception('No se encontraron resultados');
             }
         }catch(\Exception $e){
             log_message('error','Error al procesar la solicitud' . $e->getMessage());
-            return $this->response->setStatusCode(500)->setJSON(['error' => 'Ha ocurrido un error en el servidor']);
+            return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
         }
     }
 
-    public function organizador_perfil() {
-      $data = ['titulo' => 'Perfil organizador | CopyTickets 🎫'];
-      return view('usuarios/organizador-perfil.php', $data);
+    public function organizador_perfil() 
+    {
+        if(isset($_SESSION) > 0){
+            if($_SESSION['datos']['rol'] == 2 ){
+                $data = ['titulo' => 'Perfil organizador | CopyTickets 🎫'];
+                return view('usuarios/organizador-perfil.php', $data);
+            }else if($_SESSION['datos']['rol'] == 1){
+             return redirect()->to('/');
+            }
+          }else{
+            echo "No se ha iniciado sesión";
+          }  
     }
 
     function contInsert_User(){
@@ -50,7 +65,7 @@ class Crud_User extends  BaseController
             return $this->response->setJSON(['success' => true]);
         }catch(\Exception $e){
             log_message('error','Error al procesar la solicitud' . $e->getMessage());
-            return $this->response->setStatusCode(500)->setJSON(['error' => 'Ha ocurrido un error en el servidor']);
+            return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
         }
 
     }
@@ -69,9 +84,12 @@ class Crud_User extends  BaseController
 
         }catch(\Exception $e){
             log_message('error','Error al procesar la solicitud' . $e->getMessage());
-            return $this->response->setStatusCode(500)->setJSON(['error' => 'Ha ocurrido un error en el servidor']);
+            return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
         }
     }
 
-
+    function DestruirSesion(){
+        session()->destroy();
+        return redirect()->to('/');
+    }
 }

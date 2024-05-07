@@ -10,9 +10,17 @@ class Crud_Eventos extends BaseController
 
   function contMostrar_Eventos()
   {
-    $data = ['titulo' => 'Eventos | CopyTickets 🎫'];
-    /* TODO: obtener los eventos y pasarselos a la vista */
-    return view('eventos/index', $data);
+    if(isset($_SESSION) > 0){
+      if($_SESSION['datos']['rol'] == 1 ){
+        $data = ['titulo' => 'Eventos | CopyTickets 🎫'];
+        /* TODO: obtener los eventos y pasarselos a la vista */
+        return view('eventos/index', $data);
+      }else if($_SESSION['datos']['rol'] == 2){
+       return redirect()->to('public/organizador/perfil');
+      }
+    }else{
+      echo "No se ha iniciado sesión";
+    }
   }
 
   function contMostrar_Evento()

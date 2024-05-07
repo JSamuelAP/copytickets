@@ -13,8 +13,8 @@
                     <input type="email" class="form-control form-control-lg" placeholder="Email" name="email" required>
                 </div>
                 <div class="mb-3">
-                    <input type="password" class="form-control form-control-lg" placeholder="Contraseña"
-                           name="password" required>
+                    <input type="password" class="form-control form-control-lg" placeholder="Contraseña" name="password"
+                        required>
                 </div>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary btn-lg">Iniciar sesión</button>
@@ -24,5 +24,44 @@
         </div>
     </div>
 </div>
+
+<script>
+$(document).ready(function() {
+    $("#LoginUsuario").submit(function(e) {
+        e.preventDefault(); //evita que se envíen datos sin procesar
+        let metodo = $(this).attr('method');
+        let action = $(this).attr('action');
+        let datos = $(this).serializeArray();
+        $.ajax({
+            url: action,
+            method: metodo,
+            data: datos,
+            success: function(response) {
+                console.log(response);
+                if (!response) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Favor De Llenar los datos solicitados'
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'El usuario inicio sesion correctamente!',
+                        text: 'Click para continuar!',
+                        icon: 'success',
+                    }).then(() => {
+                        window.location.href = 'http://localhost/copytickets/public/';
+                    })
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("Error en la solicitud AJAX:");
+                console.log("Estado: " + status);
+                console.log("Error: " + error);
+            }
+        })
+    })
+})
+</script>
 
 <?= $this->endSection() ?>
