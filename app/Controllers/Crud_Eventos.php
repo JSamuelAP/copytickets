@@ -10,17 +10,9 @@ class Crud_Eventos extends BaseController
 
   function contMostrar_Eventos()
   {
-    if(isset($_SESSION) > 0){
-      if($_SESSION['datos']['rol'] == 1 ){
-        $data = ['titulo' => 'Eventos | CopyTickets 🎫'];
-        /* TODO: obtener los eventos y pasarselos a la vista */
-        return view('eventos/index', $data);
-      }else if($_SESSION['datos']['rol'] == 2){
-       return redirect()->to('public/organizador/perfil');
-      }
-    }else{
-      echo "No se ha iniciado sesión";
-    }
+    $data = ['titulo' => 'Eventos | CopyTickets 🎫'];
+    /* TODO: obtener los eventos y pasarselos a la vista */
+    return view('eventos/index', $data);
   }
 
   function contMostrar_Evento()
@@ -28,6 +20,12 @@ class Crud_Eventos extends BaseController
     $data = ['titulo' => 'PXNDX en León | CopyTickets 🎫'];
     /* TODO: obtener el evento y pasarselo a la vista */
     return view('eventos/evento', $data);
+  }
+
+  function contMostrar_Crear()
+  {
+    $data = ['titulo' => 'Crear evento | CopyTickets 🎫'];
+    return view('eventos/crear', $data);
   }
 
   function contGenerate_Eventos()
@@ -67,6 +65,4 @@ class Crud_Eventos extends BaseController
       return $this->response->setStatusCode(500)->setJSON(['error' => 'Ha ocurrido un error en el servidor.']);
     }
   }
-
-
 }
