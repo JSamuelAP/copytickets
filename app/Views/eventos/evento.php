@@ -48,7 +48,9 @@
             <p class="fs-5 mb-0">Capacidad: </p>
             <p>2100 asistentes</p>
             <section>
-                <p class="text-center mb-4"><a href="" class="link-primary">Ver estadisticas</a></p>
+                <p class="text-center mb-4">
+                    <a href="<?= $id ?>/estadisticas" class="link-primary">Ver estadisticas</a>
+                </p>
                 <p class="fs-5 mb-0">Usuario escáner: </p>
                 <div class="mb-2">
                     <label class="form-label mb-0 fw-light">Nombre de usuario</label>

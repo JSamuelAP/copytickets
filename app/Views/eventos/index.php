@@ -26,7 +26,7 @@
     <h1>Proximos eventos</h1>
     <div class="vstack gap-3">
         <article class="card shadow-sm border-0">
-            <a href="eventos/id" class="text-decoration-none">
+            <a href="eventos/1" class="text-decoration-none">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img src="uploads/pxndx.jpg" class="img-fluid rounded-start w-100 object-fit-cover"

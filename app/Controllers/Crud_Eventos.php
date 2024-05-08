@@ -15,9 +15,9 @@ class Crud_Eventos extends BaseController
     return view('eventos/index', $data);
   }
 
-  function contMostrar_Evento()
+  function contMostrar_Evento($id)
   {
-    $data = ['titulo' => 'PXNDX en León | CopyTickets 🎫'];
+    $data = ['titulo' => 'PXNDX en León | CopyTickets 🎫', 'id' => $id];
     /* TODO: obtener el evento y pasarselo a la vista */
     return view('eventos/evento', $data);
   }
@@ -26,6 +26,12 @@ class Crud_Eventos extends BaseController
   {
     $data = ['titulo' => 'Crear evento | CopyTickets 🎫'];
     return view('eventos/crear', $data);
+  }
+
+  function contMostrar_estadisticas()
+  {
+    $data = ['titulo' => 'Estadísticas de PXNDX En León | CopyTickets 🎫'];
+    return view('eventos/estadisticas', $data);
   }
 
   function contGenerate_Eventos()

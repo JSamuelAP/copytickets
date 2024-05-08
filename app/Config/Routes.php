@@ -8,7 +8,8 @@ use CodeIgniter\Router\RouteCollection;
 
 //Ruta para vistas
 $routes->get('/', 'Crud_Eventos::contMostrar_Eventos');
-$routes->get('eventos/(:num)', 'Crud_Eventos::contMostrar_Evento/(:num)');
+$routes->get('eventos/(:num)', 'Crud_Eventos::contMostrar_Evento/$1');
+$routes->get('eventos/(:num)/estadisticas', 'Crud_Eventos::contMostrar_estadisticas/$1');
 $routes->get('eventos/crear', 'Crud_Eventos::contMostrar_crear');
 
 $routes->get('login/', 'Auth::login');
