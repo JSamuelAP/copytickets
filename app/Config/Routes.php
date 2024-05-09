@@ -16,6 +16,8 @@ $routes->get('login/', 'Auth::login');
 $routes->get('signup/', 'Auth::signup');
 $routes->get('organizador/perfil/', 'Crud_User::organizador_perfil');
 
+$routes->get('compras/', 'Ventas::index');
+
 //Rutas para los datos
 $routes->post('Crud_User/contInsert_User', 'Crud_User::contInsert_User');
 $routes->post('Crud_User/ValidandoDatos', 'Crud_User::ValidandoDatos');
