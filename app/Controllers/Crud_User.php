@@ -3,16 +3,17 @@
 namespace  App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\Usuario_Model;
-use CodeIgniter\Session\SessionInterface;
+use App\Models\Eventos_Model;
 
 
 class Crud_User extends  BaseController
 {
     protected $usuario;
-
+    protected $evento_model;
     public function __construct()
     {
         $this->usuario = new Usuario_Model();
+        $this->evento_model = new Eventos_Model();
     }
 
     function ValidandoDatos(){
@@ -24,7 +25,7 @@ class Crud_User extends  BaseController
                 if($_SESSION['datos']['rol'] == 1){
                     return redirect()->to('/');
                 }else if($_SESSION['datos']['rol'] == 2){
-                    return redirect()->to('public/organizador/perfil');
+                    return redirect()->to('/');
                 } 
             }else{
                 throw new \Exception('No se encontraron resultados');
@@ -35,18 +36,20 @@ class Crud_User extends  BaseController
         }
     }
 
-    public function organizador_perfil() 
+    public function organizador_perfil($id) 
     {
-        if(isset($_SESSION) > 0){
-            if($_SESSION['datos']['rol'] == 2 ){
-                $data = ['titulo' => 'Perfil organizador | CopyTickets 🎫'];
+        try {
+            if(isset($_SESSION)){
+                $data = ['titulo' => 'Perfil organizador | CopyTickets 🎫',
+                        'organizador' => $this->usuario->find($id),
+                        'cartelera' => $this->evento_model->findAll()];
                 return view('usuarios/organizador-perfil.php', $data);
-            }else if($_SESSION['datos']['rol'] == 1){
-             return redirect()->to('/');
+              return $this->response->setJSON(['success' => true]);  
             }
-          }else{
-            echo "No se ha iniciado sesión";
-          }  
+          } catch (\Exception $e) {
+            log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
+            return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
+          }
     }
 
     function contInsert_User(){
@@ -90,6 +93,6 @@ class Crud_User extends  BaseController
 
     function DestruirSesion(){
         session()->destroy();
-        return redirect()->to('/');
+        return redirect()->to('public/');
     }
 }

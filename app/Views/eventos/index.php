@@ -26,7 +26,8 @@
     <h1>Proximos eventos</h1>
     <div class="vstack gap-3">
         <article class="card shadow-sm border-0">
-            <a href="eventos/id" class="text-decoration-none">
+        <?php foreach($eventos_model as  $ev): ?>
+            <a href="<?= base_url('public/eventos/'.$ev['id']) ?>" class="text-decoration-none">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img src="uploads/pxndx.jpg" class="img-fluid rounded-start w-100 object-fit-cover"
@@ -37,20 +38,20 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title fs-3 text-body">PXNDX en León</h5>
+                                    <h5 class="card-title fs-3 text-body"><?= $ev['nombre'] ?></h5>
                                     <p class="card-text text-body-secondary">
-                                        <i class="bi bi-geo-alt-fill"></i> Foro del lago
+                                        <i class="bi bi-geo-alt-fill"></i> <?= $ev['ubicacion'] ?>
                                     </p>
                                 </div>
                                 <div class="col-auto">
                                     <p class="text-center fs-5 text-body">
-                                        30<br>
-                                        SEP
+                                        <?= $ev['fecha'] ?>
                                     </p>
                                 </div>
                             </div>
-                            <p class="text-end mt-2 mb-0 text-primary fs-5 fw-medium">$600.00 MXN</p>
+                            <p class="text-end mt-2 mb-0 text-primary fs-5 fw-medium">$<?= $ev['precio'] ?>MXN</p>
                         </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </a>

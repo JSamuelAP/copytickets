@@ -1,33 +1,51 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\Usuario_Model;
+use App\Models\Eventos_Model;
+
 
 class Crud_Eventos extends BaseController
 {
+  protected $eventos_model;
+  protected $organizador_model;
   public function __construct()
   {
+    $this->eventos_model = new Eventos_Model();
+    $this->organizador_model = new Usuario_Model();
   }
 
   function contMostrar_Eventos()
   {
-    if(isset($_SESSION) > 0){
-      if($_SESSION['datos']['rol'] == 1 ){
-        $data = ['titulo' => 'Eventos | CopyTickets 🎫'];
+    try {
+      if(isset($_SESSION)){
+        $data = ['titulo' => 'Eventos | CopyTickets 🎫',
+                'eventos_model' => $this->eventos_model->findAll()];
         /* TODO: obtener los eventos y pasarselos a la vista */
         return view('eventos/index', $data);
-      }else if($_SESSION['datos']['rol'] == 2){
-       return redirect()->to('public/organizador/perfil');
+        return $this->response->setJSON(['success' => true]);  
       }
-    }else{
-      echo "No se ha iniciado sesión";
+    } catch (\Exception $e) {
+      log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
+      return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
     }
   }
 
-  function contMostrar_Evento()
+  function contMostrar_Evento($id)
   {
-    $data = ['titulo' => 'PXNDX en León | CopyTickets 🎫'];
-    /* TODO: obtener el evento y pasarselo a la vista */
-    return view('eventos/evento', $data);
+    try {
+      if(isset($_SESSION)){
+        $data = ['titulo' => 'PXNDX en León | CopyTickets 🎫',
+                'cartelera' => $this->eventos_model->find($id),
+                'organizador' => $this->organizador_model->findAll()];
+        /* TODO: obtener el evento y pasarselo a la vista */
+        return view('eventos/evento', $data);
+        return $this->response->setJSON(['success' => true]);  
+      }
+    } catch (\Exception $e) {
+      log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
+      return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
+    }
   }
 
   function contGenerate_Eventos()
@@ -45,7 +63,6 @@ class Crud_Eventos extends BaseController
         "imagen" => $this->request->getFile("imagen")
       );
       $this->Eventos_Model->insertEvento($data);
-
     } catch (\Exception $e) {
       log_message('error', 'Error al procesar la solicitud: ' . $e->getMessage());
       return $this->response->setStatusCode(500)->setJSON(['error' => 'Ha ocurrido un error en el servidor.']);
@@ -61,12 +78,9 @@ class Crud_Eventos extends BaseController
         "imagen" => $this->request->getFile("imagen")
       );
       $this->Eventos_Model->updateVentas($data, $id);
-
     } catch (\Exception $e) {
       log_message('error', 'Error al procesar la solicitud: ' . $e->getMessage());
       return $this->response->setStatusCode(500)->setJSON(['error' => 'Ha ocurrido un error en el servidor.']);
     }
   }
-
-
 }

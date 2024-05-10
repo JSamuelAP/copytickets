@@ -8,11 +8,13 @@ use CodeIgniter\Router\RouteCollection;
 
  //Ruta para vistas
 $routes->get('/', 'Crud_Eventos::contMostrar_Eventos');
-$routes->get('eventos/(:num)', 'Crud_Eventos::contMostrar_Evento/(:num)');
+$routes->get('eventos/(:num)', 'Crud_Eventos::contMostrar_Evento/$1');
 $routes->get('login/', 'Auth::login');
 $routes->get('signup/', 'Auth::signup');
-$routes->get('organizador/perfil/', 'Crud_User::organizador_perfil');
+$routes->get('organizador/perfil/(:num)', 'Crud_User::organizador_perfil/$1');
+$routes->get('DestruirSesion', 'Crud_User::DestruirSesion');
 
 //Rutas para los datos
 $routes->post('Crud_User/contInsert_User', 'Crud_User::contInsert_User');
 $routes->post('Crud_User/ValidandoDatos', 'Crud_User::ValidandoDatos');
+
