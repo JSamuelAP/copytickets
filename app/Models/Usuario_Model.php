@@ -23,4 +23,8 @@ class Usuario_Model extends Model
                         ->first();
         return $usuario;
     }
+
+    function ConsultarDatos(){
+       return $this->findAll();
+    }
 }

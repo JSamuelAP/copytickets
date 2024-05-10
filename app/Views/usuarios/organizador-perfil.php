@@ -4,18 +4,14 @@
 <section class="mt-4">
     <div class="row">
         <div class="col-12 col-md-5 col-lg-4">
-            <h1 class="mb-4">PXNDX</h1>
-            <p class="mb-1 fs-5"><i class="bi bi-envelope-fill"></i> pxndx@contact.com</p>
-            <p class="mb-1 fs-5"><i class="bi bi-telephone-fill"></i> +52 477 000 0000</p>
-            <p class="mb-2 fs-5"><i class="bi bi-geo-alt-fill"></i> México</p>
+            <h1 class="mb-4"><?= $organizador['nombre'] ?></h1>
+            <p class="mb-1 fs-5"><i class="bi bi-envelope-fill"></i> <?= $organizador['email']?></p>
+            <p class="mb-1 fs-5"><i class="bi bi-telephone-fill"></i> <?= $organizador['telefono']?></p>
+            <p class="mb-2 fs-5"><i class="bi bi-geo-alt-fill"></i> <?= $organizador['ubicacion']?></p>
         </div>
         <div class="col-12 col-md-7 col-lg-8">
             <p class="fs-5">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aperiam, autem, blanditiis culpa
-                cupiditate debitis deserunt dicta eligendi facilis magni nobis officiis qui rem reprehenderit tempora
-                unde vel voluptates voluptatibus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis
-                ducimus enim excepturi, facere impedit libero minus modi natus nobis obcaecati officia pariatur
-                perferendis quas quibusdam quis quod soluta totam, unde.
+                <?= $organizador['descripcion'];?>
             </p>
         </div>
     </div>
@@ -23,7 +19,9 @@
 <section class="mt-5 mb-5">
     <div class="d-flex justify-content-between mb-2">
         <h2>Proximos eventos</h2>
+        <?php if(isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2): ?>
         <a href="" class="btn btn-primary btn-lg">Crear evento</a>
+        <?php endif;?>
     </div>
     <div class="vstack gap-3">
         <article class="card shadow-sm border-0">

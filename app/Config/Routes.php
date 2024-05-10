@@ -14,7 +14,8 @@ $routes->get('eventos/crear', 'Crud_Eventos::contMostrar_crear');
 
 $routes->get('login/', 'Auth::login');
 $routes->get('signup/', 'Auth::signup');
-$routes->get('organizador/perfil/', 'Crud_User::organizador_perfil');
+$routes->get('organizador/perfil/(:num)', 'Crud_User::organizador_perfil/$1');
+$routes->get('DestruirSesion', 'Crud_User::DestruirSesion');
 
 $routes->get('compras/', 'Ventas::index');
 $routes->get('boleto/(:num)', 'Ventas::boleto/$1');
