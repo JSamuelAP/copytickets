@@ -18,7 +18,7 @@ $routes->get('organizador/perfil/(:num)', 'Crud_User::organizador_perfil/$1');
 $routes->get('DestruirSesion', 'Crud_User::DestruirSesion');
 
 $routes->get('compras/', 'Ventas::index');
-$routes->get('boleto/(:num)', 'Ventas::boleto/$1');
+$routes->get('boletos/(:num)', 'Ventas::boleto/$1');
 
 //Rutas para los datos
 $routes->post('Crud_User/contInsert_User', 'Crud_User::contInsert_User');

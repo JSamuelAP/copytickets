@@ -2,7 +2,7 @@
 
 <?= $this->section('contenido') ?>
 <h1 class="text-center mt-5">¡Gracias por tu compra!</h1>
-<div class="d-flex justify-content-center mt-3 mb-5">
+<div class="d-flex flex-column align-items-center mt-3 mb-5">
     <div class="card" style="width: 20rem;">
         <img
                 src="<?= base_url('public/uploads/qr.png') ?>"
@@ -32,5 +32,6 @@
             <p class="text-center text-body-tertiary">CopyTickets &copy; 2024</p>
         </div>
     </div>
+    <button class="btn btn-lg btn-primary mt-3">Descargar</button>
 </div>
 <?= $this->endSection() ?>
