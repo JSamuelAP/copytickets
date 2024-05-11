@@ -20,18 +20,8 @@
             href="<?= base_url('vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css') ?>"
             rel="stylesheet"
     >
-    <style>
-        /* TODO: Personalizar el color primario como rosa */
-        /*https://getbootstrap.com/docs/5.3/components/buttons/#variables*/
-        :root, [data-bs-theme=light] {
-            --bs-primary: #dd0dfd;
-            --bs-primary-rgb: 221, 13, 253;
-        }
-
-        .btn.btn-primary {
-            background-color: var(--bs-primary);
-        }
-    </style>
+    <!-- CSS -->
+    <link rel="stylesheet" href="<?= base_url('public/css/styles.css') ?>">
 </head>
 <body>
 <header>
