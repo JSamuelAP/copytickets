@@ -52,8 +52,17 @@ class Crud_Eventos extends BaseController
 
   function contMostrar_Crear()
   {
-    $data = ['titulo' => 'Crear evento | CopyTickets 🎫'];
-    return view('eventos/crear', $data);
+    try{
+      if(isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2){
+        $data = ['titulo' => 'Crear evento | CopyTickets 🎫'];
+        return view('eventos/crear', $data);
+      }else{
+        return redirect()->to('public');
+      }
+    }catch(\Exception $e){
+      log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
+      return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
+    }
   }
 
   function contMostrar_estadisticas()
@@ -76,7 +85,7 @@ class Crud_Eventos extends BaseController
         "precio" => $this->request->getPost("precio"),
         "imagen" => $this->request->getFile("imagen")
       );
-      $this->Eventos_Model->insertEvento($data);
+      $this->eventos_model->insertEvento($data);
     } catch (\Exception $e) {
       log_message('error', 'Error al procesar la solicitud: ' . $e->getMessage());
       return $this->response->setStatusCode(500)->setJSON(['error' => 'Ha ocurrido un error en el servidor.']);
@@ -91,7 +100,7 @@ class Crud_Eventos extends BaseController
         "descripcion" => $this->request->getPost("descripcion"),
         "imagen" => $this->request->getFile("imagen")
       );
-      $this->Eventos_Model->updateVentas($data, $id);
+      $this->eventos_model->update($data, $id);
     } catch (\Exception $e) {
       log_message('error', 'Error al procesar la solicitud: ' . $e->getMessage());
       return $this->response->setStatusCode(500)->setJSON(['error' => 'Ha ocurrido un error en el servidor.']);
