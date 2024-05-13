@@ -5,9 +5,15 @@
     <section class="mt-5">
         <h1 class="text-center">Detalles del evento</h1>
         <div class="row row-gap-3 mt-4">
-            <div class="col-12 col-lg-6">
+            <div class="col-12 col-sm-6 col-lg-4">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="nombre" id="nombre" required placeholder="Nombre del Festival o Evento">
+                <input type="text" class="form-control" name="nombre" id="nombre" required
+                       placeholder="Nombre del Festival o Evento">
+            </div>
+            <div class="col-12 col-sm-6 col-lg-2">
+                <label for="precio" class="form-label">Precio</label>
+                <input type="number" class="form-control" name="precio" id="precio" required placeholder="$0.00 MXN"
+                       min="0">
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <label for="imagen" class="form-label">Imágen</label>
