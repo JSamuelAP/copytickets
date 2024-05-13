@@ -20,12 +20,12 @@
     <div class="d-flex justify-content-between mb-2">
         <h2>Proximos eventos</h2>
         <?php if(isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2): ?>
-        <a href="" class="btn btn-primary btn-lg">Crear evento</a>
+        <a href="<?=base_url('public/eventos/crear')?>" class="btn btn-primary btn-lg">Crear evento</a>
         <?php endif;?>
     </div>
     <div class="vstack gap-3">
         <article class="card shadow-sm border-0">
-            <a href="eventos/id" class="text-decoration-none">
+            <a href="<?= base_url('public/eventos/'.$cartelera[0]['id']) ?>" class="text-decoration-none">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img src="<?= base_url('public/uploads/pxndx.jpg') ?>"
@@ -61,7 +61,7 @@
     <h2>Eventos pasados</h2>
     <div class="vstack gap-3">
         <article class="card shadow-sm border-0">
-            <a href="eventos/id" class="text-decoration-none">
+            <a href="<?= base_url('public/eventos/'.$cartelera[0]['id']) ?>" class="text-decoration-none">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img src="<?= base_url('public/uploads/pxndx.jpg') ?>"

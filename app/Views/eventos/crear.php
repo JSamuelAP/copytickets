@@ -7,7 +7,7 @@
         <div class="row row-gap-3 mt-4">
             <div class="col-12 col-lg-6">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="nombre" id="nombre" required>
+                <input type="text" class="form-control" name="nombre" id="nombre" required placeholder="Nombre del Festival o Evento">
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <label for="imagen" class="form-label">Imágen</label>
@@ -40,7 +40,7 @@
                 <input type="text"
                        class="form-control"
                        name="ubicacion"
-                       placeholder="Lugar donde se lleva a cabo"
+                       placeholder="Lugar del evento y Ciudad o Estado"
                        id="ubicacion"
                        required>
             </div>
