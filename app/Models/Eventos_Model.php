@@ -13,8 +13,7 @@ class Eventos_Model extends Model
 
     protected $returnType     = 'array';
 
-    protected $allowedFields = ['id', 'organizador_id', "nombre", "categoria", "descripcion", "precio",
-                                "fecha", "hora", "ubicacion", "capacidad"];
+    protected $allowedFields = ['id', 'organizador_id', "nombre", "categoria", "descripcion", "precio","fecha", "hora", "ubicacion", "capacidad", "imagen"];
 
     protected bool $allowEmptyInserts = false;
 

@@ -20,7 +20,7 @@
     <div class="d-flex justify-content-between mb-2">
         <h2>Proximos eventos</h2>
         <?php if(isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2): ?>
-        <a href="<?=base_url('public/eventos/crear')?>" class="btn btn-primary btn-lg">Crear evento</a>
+        <a href="<?=base_url('public/eventos/crear/'.$_SESSION['datos']['id'])?>" class="btn btn-primary btn-lg">Crear evento</a>
         <?php endif;?>
     </div>
     <div class="vstack gap-3">

@@ -1,7 +1,7 @@
 <?= $this->extend('layout/base.php') ?>
 
 <?= $this->section('contenido') ?>
-<form action="" method="post" enctype="multipart/form-data">
+<form id="CrearEvento" action="<?=base_url('public/eventos/generar')?>" method="post" enctype="multipart/form-data">
     <section class="mt-5">
         <h1 class="text-center">Detalles del evento</h1>
         <div class="row row-gap-3 mt-4">
@@ -17,7 +17,7 @@
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <label for="imagen" class="form-label">Imágen</label>
-                <input type="file" class="form-control" name="imagen" id="imagen" accept="image/*">
+                <input type="file" class="form-control" name="imagen" id="imagen">
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <label for="categoria" class="form-label">Categoria</label>
@@ -30,8 +30,7 @@
             </div>
             <div class="col-12">
                 <label for="descripcion" class="form-label">Descripcion</label>
-                <textarea name="descripcion" rows="2" class="form-control" id="descripcion">
-                </textarea>
+                <textarea name="descripcion" rows="2" class="form-control" id="descripcion"></textarea>
             </div>
             <div class="col-6 col-lg-2">
                 <label for="fecha" class="form-label">Fecha</label>
@@ -80,10 +79,53 @@
                            required>
                 </div>
             </div>
+            <input type="hidden" name="organizador_id" id="organizador_id" value="<?= $organizador['id'] ?>">
+
         </div>
     </section>
     <div class="text-center my-5">
         <input type="submit" value="Crear evento" class="btn btn-lg btn-primary">
     </div>
 </form>
+
+<script>
+$(document).ready(function() {
+    $("#CrearEvento").submit(function(e) {
+        e.preventDefault();
+        let metodo = $(this).attr('method');
+        let action = $(this).attr('action');
+        let datos = $(this).serializeArray();
+        $.ajax({
+            url: action,
+            method: metodo,
+            data: new FormData(this), // Utiliza FormData para enviar datos de formulario que incluyen archivos
+            processData: false, // Evita que jQuery procese los datos
+            contentType: false, // Evita que jQuery establezca automáticamente el tipo de contenido
+            success: function(response) {
+                console.log(response);
+                if (response) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Favor De Llenar los datos solicitados'
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'El evento se ha creado correctamente!',
+                        text: 'Click para continuar!',
+                        icon: 'success',
+                    }).then(() => {
+                        window.location.href = 'http://localhost/copytickets/public/';
+                    })
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("Error en la solicitud AJAX:");
+                console.log("Estado: " + status);
+                console.log("Error: " + error);
+            }
+        })
+    })
+})
+</script>
 <?= $this->endSection() ?>

@@ -4,17 +4,20 @@ namespace App\Controllers;
 
 use App\Models\Usuario_Model;
 use App\Models\Eventos_Model;
-
+use App\Controllers\File;
+use App\Models\Escaner_Model;
 
 class Crud_Eventos extends BaseController
 {
   protected $eventos_model;
   protected $organizador_model;
+  protected $escaner_model;
 
   public function __construct()
   {
     $this->eventos_model = new Eventos_Model();
     $this->organizador_model = new Usuario_Model();
+    $this->escaner_model = new Escaner_Model();
   }
 
   function contMostrar_Eventos()
@@ -50,11 +53,12 @@ class Crud_Eventos extends BaseController
     }
   }
 
-  function contMostrar_Crear()
+  function contMostrar_Crear($id)
   {
     try{
       if(isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2){
-        $data = ['titulo' => 'Crear evento | CopyTickets 🎫'];
+        $data = ['titulo' => 'Crear evento | CopyTickets 🎫',
+                'organizador' => $this->organizador_model->find($id)];
         return view('eventos/crear', $data);
       }else{
         return redirect()->to('public');
@@ -73,24 +77,41 @@ class Crud_Eventos extends BaseController
 
   function contGenerate_Eventos()
   {
-    try {
-      $data = array(
-        "nombre" => $this->request->getPost("nombre"),
-        "categoria" => $this->request->getPost("categoria"),
-        "descripcion" => $this->request->getPost("descripcion"),
-        "fecha" => $this->request->getPost("fecha"),
-        "hora" => $this->request->getPost("hora"),
-        "ubicacion" => $this->request->getPost("ubicacion"),
-        "capacidad" => $this->request->getPost("capacidad"),
-        "precio" => $this->request->getPost("precio"),
-        "imagen" => $this->request->getFile("imagen")
-      );
-      $this->eventos_model->insertEvento($data);
-    } catch (\Exception $e) {
-      log_message('error', 'Error al procesar la solicitud: ' . $e->getMessage());
-      return $this->response->setStatusCode(500)->setJSON(['error' => 'Ha ocurrido un error en el servidor.']);
-    }
+      try {
+          $img = $this->request->getFile('imagen');
+          $rutaImagen = '';
+  
+          if ($img->isValid() && !$img->hasMoved()) {
+              $ruta = ROOTPATH . 'public/images';
+              $img->move($ruta);
+  
+              $rutaImagen = 'public/images/' . $img->getName();
+          } else {
+              echo $img->getErrorString();
+          }
+  
+          $data = [
+              "nombre" => $this->request->getPost("nombre"),
+              "categoria" => $this->request->getPost("categoria"),
+              "descripcion" => $this->request->getPost("descripcion"),
+              "fecha" => $this->request->getPost("fecha"),
+              "hora" => $this->request->getPost("hora"),
+              "ubicacion" => $this->request->getPost("ubicacion"),
+              "capacidad" => $this->request->getPost("capacidad"),
+              "precio" => $this->request->getPost("precio"),
+              "imagen" => $rutaImagen, // Guardar la ruta de la imagen en la base de datos
+              "organizador_id" => $this->request->getPost('organizador_id')
+          ];
+  
+          $this->eventos_model->insert($data);
+      } catch (\Exception $e) {
+          log_message('error', 'Error al procesar la solicitud: ' . $e->getMessage());
+          return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
+      }
   }
+  
+  
+  
 
   function contEdit_Eventos($id)
   {
@@ -106,4 +127,5 @@ class Crud_Eventos extends BaseController
       return $this->response->setStatusCode(500)->setJSON(['error' => 'Ha ocurrido un error en el servidor.']);
     }
   }
+
 }
