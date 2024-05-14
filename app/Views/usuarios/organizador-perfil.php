@@ -24,8 +24,9 @@
         <?php endif;?>
     </div>
     <div class="vstack gap-3">
+        <?php foreach($cartelera as $carteleras):?>
         <article class="card shadow-sm border-0">
-            <a href="<?= base_url('public/eventos/'.$cartelera[0]['id']) ?>" class="text-decoration-none">
+            <a href="<?= base_url('public/eventos/'.$carteleras['id']) ?>" class="text-decoration-none">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img src="<?= base_url('public/uploads/pxndx.jpg') ?>"
@@ -37,9 +38,9 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title fs-3 text-body">PXNDX en León</h5>
+                                    <h5 class="card-title fs-3 text-body"><?= $carteleras['nombre']?></h5>
                                     <p class="card-text text-body-secondary">
-                                        <i class="bi bi-geo-alt-fill"></i> Foro del lago
+                                        <i class="bi bi-geo-alt-fill"></i> <?= $carteleras['ubicacion'] ?>
                                     </p>
                                 </div>
                                 <div class="col-auto">
@@ -49,22 +50,23 @@
                                     </p>
                                 </div>
                             </div>
-                            <p class="text-end mt-2 mb-0 text-primary fs-5 fw-medium">$600.00 MXN</p>
+                            <p class="text-end mt-2 mb-0 text-primary fs-5 fw-medium">$<?=$carteleras['precio']?> MXN</p>
                         </div>
                     </div>
                 </div>
             </a>
         </article>
+        <?php endforeach; ?>
     </div>
 </section>
-<section class="mt-5 mb-5">
+<!-- <section class="mt-5 mb-5">
     <h2>Eventos pasados</h2>
     <div class="vstack gap-3">
         <article class="card shadow-sm border-0">
-            <a href="<?= base_url('public/eventos/'.$cartelera[0]['id']) ?>" class="text-decoration-none">
+            <a href=" < base_url('public/eventos/'.$cartelera[0]['id']) ?> " class="text-decoration-none">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="<?= base_url('public/uploads/pxndx.jpg') ?>"
+                        <img src=" < base_url($cartelera[0]['imagen']) ?>"
                              class="img-fluid rounded-start w-100 object-fit-cover"
                              alt="Banner de PNXNDX"
                              style="max-height: 150px">
@@ -92,5 +94,5 @@
             </a>
         </article>
     </div>
-</section>
+</section> -->
 <?= $this->endSection() ?>

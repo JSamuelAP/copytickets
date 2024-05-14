@@ -17,4 +17,9 @@ class Eventos_Model extends Model
 
     protected bool $allowEmptyInserts = false;
 
+    function consultarEventos($id){
+        $consulta =  $this->where('organizador_id',$id)
+                           ->findAll();
+        return $consulta;
+    }
 }
