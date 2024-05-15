@@ -25,14 +25,14 @@
 <section class="mt-5 mb-5">
     <h1>Proximos eventos</h1>
     <div class="vstack gap-3">
+    <?php $fecha_Actual = date('Y-m-d')?>
+    <?php foreach ($eventos_model as  $ev): ?>
+        <?php if($ev['fecha'] >= $fecha_Actual): ?>
         <article class="card shadow-sm border-0">
-          <?php foreach ($eventos_model
-
-          as  $ev): ?>
             <a href="<?= base_url('public/eventos/' . $ev['id']) ?>" class="text-decoration-none">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="uploads/pxndx.jpg" class="img-fluid rounded-start w-100 object-fit-cover"
+                        <img src="<?= base_url($ev['imagen']) ?>" class="img-fluid rounded-start w-100 object-fit-cover"
                              alt="Banner de PNXNDX"
                              style="max-height: 150px">
                     </div>
@@ -53,11 +53,12 @@
                             </div>
                             <p class="text-end mt-2 mb-0 text-primary fs-5 fw-medium">$<?= $ev['precio'] ?>MXN</p>
                         </div>
-                      <?php endforeach; ?>
                     </div>
                 </div>
             </a>
         </article>
+        <?php endif;?>
+        <?php endforeach; ?>
     </div>
 </section>
 <?= $this->endSection() ?>
