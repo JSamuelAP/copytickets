@@ -14,6 +14,10 @@ $routes->get(
   'Crud_Eventos::contMostrar_estadisticas/$1'
 );
 $routes->get('eventos/crear', 'Crud_Eventos::contMostrar_crear');
+$routes->get(
+  'eventos/(:num)/editar',
+  'Crud_Eventos::contMostrar_editar/$1'
+);
 
 $routes->get('login/', 'Auth::login');
 $routes->get('signup/', 'Auth::signup');
