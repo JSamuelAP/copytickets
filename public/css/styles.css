@@ -1,17 +1,20 @@
 /*https://getbootstrap.com/docs/5.3/components/buttons/#variables*/
 :root, [data-bs-theme=light] {
-    --primary-color: #dd0dfd;
-    --bg-color: #fde6ff;
+    --primary-color: #884b6a;
+    --primary-color-rgb: 136, 75, 106;
+    --bg-color: #fff8f8;
+    --bg-pimary-container: #ffd8e8;
+    --bg-primary-text: #380725;
 
-    --btn-border-color: #dd0dfd;
-    --btn-hover-bg: #940fa8;
-    --btn-hover-border-color: #940fa8;
-    --btn-focus-shadow-rgb: 221, 13, 253;
-    --btn-active-bg: #820993;
-    --btn-active-border-color: rgba(221, 13, 253, 0.5);
+    --btn-border-color: var(--primary-color);
+    --btn-hover-bg: #521d3b;
+    --btn-hover-border-color: var(--btn-hover-bg);
+    --btn-focus-shadow-rgb: var(--primary-color-rgb);
+    --btn-active-bg: #6d3352;
+    --btn-active-border-color: rgba(109, 51, 82, 0.5);
 
-    --link-color-rgb: 221, 13, 253;
-    --link-hover-color-rgb: 148, 15, 168;
+    --link-color-rgb: 164, 99, 131;
+    --link-hover-color-rgb: 136, 75, 106;
 }
 
 body {
@@ -45,10 +48,16 @@ a:hover {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
 }
+
 .form-check-input:focus {
-    box-shadow: 0 0 0 .25rem rgba(var(--btn-focus-shadow-rgb),.25);
+    box-shadow: 0 0 0 .25rem rgba(var(--btn-focus-shadow-rgb), .25);
 }
 
 .text-primary {
     color: var(--primary-color) !important;
+}
+
+footer, nav.navbar {
+    background-color: var(--bg-pimary-container);
+    color: var(--bg-primary-text);
 }

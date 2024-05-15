@@ -29,7 +29,7 @@
             <a href="<?= base_url(
               'public/organizador/perfil/' . $cartelera['organizador_id']
             ) ?>"
-               class="fs-5 link-primary"><?= $cartelera['nombre'] ?></a>
+               class="fs-5"><?= $cartelera['nombre'] ?></a>
             <p class="mb-2 mt-5 fs-5">
                 <i class="bi bi-geo-alt-fill"></i>
               <?= $cartelera['ubicacion'] ?>
@@ -57,8 +57,10 @@
                     </div>
                 </div>
                 <div class="d-grid">
-                    <input type="submit" class="btn btn-lg btn-primary"
-                           value="Comprar">
+                    <button type="submit" class="btn btn-lg btn-primary">
+                        <i class="bi bi-cart"></i>
+                        Comprar
+                    </button>
                 </div>
             </form>
             <p class="fs-5 mb-0">Capacidad: </p>
