@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\Usuario_Model;
 use App\Models\Eventos_Model;
-use App\Controllers\File;
 use App\Models\Escaner_Model;
 
 class Crud_Eventos extends BaseController
@@ -43,6 +42,7 @@ class Crud_Eventos extends BaseController
         $data = ['titulo' => 'PXNDX en León | CopyTickets 🎫',
           'cartelera' => $this->eventos_model->find($id),
           'organizador' => $this->organizador_model->findAll()];
+          print_r($data['cartelera']);
         /* TODO: obtener el evento y pasarselo a la vista */
         return view('eventos/evento', $data);
         return $this->response->setJSON(['success' => true]);
@@ -78,18 +78,9 @@ class Crud_Eventos extends BaseController
   function contGenerate_Eventos()
   {
       try {
-          $img = $this->request->getFile('imagen');
-          $rutaImagen = '';
-  
-          if ($img->isValid() && !$img->hasMoved()) {
-              $ruta = ROOTPATH . 'public/images';
-              $img->move($ruta);
-  
-              $rutaImagen = 'public/images/' . $img->getName();
-          } else {
-              echo $img->getErrorString();
-          }
-  
+
+        $rutaImagen = $this->SubirImagen();
+
           $data = [
               "nombre" => $this->request->getPost("nombre"),
               "categoria" => $this->request->getPost("categoria"),
@@ -102,17 +93,32 @@ class Crud_Eventos extends BaseController
               "imagen" => $rutaImagen, // Guardar la ruta de la imagen en la base de datos
               "organizador_id" => $this->request->getPost('organizador_id')
           ];
-  
           $this->eventos_model->insert($data);
+          
       } catch (\Exception $e) {
           log_message('error', 'Error al procesar la solicitud: ' . $e->getMessage());
           return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
       }
   }
   
+  function subirImagen()
+  {
+      $img = $this->request->getFile('imagen');
+      $rutaImagen = '';
   
+      if ($img->isValid() && !$img->hasMoved()) {
+          $ruta = ROOTPATH . 'public/images';
+          $nombreImagen = uniqid() . '.' . $img->getClientExtension();
+          $img->move($ruta, $nombreImagen);
+          $rutaImagen = 'public/images/' . $nombreImagen;
+      } else {
+          throw new \Exception($img->getErrorString());
+      }
   
+      return $rutaImagen;
+  }
 
+  
   function contEdit_Eventos($id)
   {
     try {

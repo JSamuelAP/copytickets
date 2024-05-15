@@ -3,7 +3,7 @@
 <?= $this->section('contenido') ?>
     <section class="mt-3 mb-4">
         <img
-                src="<?= base_url('public/uploads/pxndx.jpg') ?>"
+                src="<?= base_url($cartelera['imagen']) ?>"
                 alt="Banner de pxndx"
                 class="img-fluid rounded-4 w-100 object-fit-cover"
                 style="max-height: 400px;"
@@ -33,9 +33,12 @@
                                class="form-control">
                     </div>
                 </div>
+                <?php if($cartelera['fecha'] > date('Y-m-d')):?>
                 <div class="d-grid">
                     <input type="submit" class="btn btn-lg btn-primary" value="Comprar">
                 </div>
+                <?php endif;?>
+
             </form>
             <p class="fs-5 mb-0">Capacidad: </p>
             <p><?= $cartelera['capacidad'] ?> asistentes</p>

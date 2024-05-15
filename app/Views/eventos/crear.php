@@ -5,6 +5,7 @@
     <section class="mt-5">
         <h1 class="text-center">Detalles del evento</h1>
         <div class="row row-gap-3 mt-4">
+
             <div class="col-12 col-sm-6 col-lg-4">
                 <label for="nombre" class="form-label">Nombre</label>
                 <input type="text" class="form-control" name="nombre" id="nombre" required
@@ -92,40 +93,52 @@
 $(document).ready(function() {
     $("#CrearEvento").submit(function(e) {
         e.preventDefault();
-        let metodo = $(this).attr('method');
-        let action = $(this).attr('action');
-        let datos = $(this).serializeArray();
-        $.ajax({
-            url: action,
-            method: metodo,
-            data: new FormData(this), // Utiliza FormData para enviar datos de formulario que incluyen archivos
-            processData: false, // Evita que jQuery procese los datos
-            contentType: false, // Evita que jQuery establezca automáticamente el tipo de contenido
-            success: function(response) {
-                console.log(response);
-                if (response) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Favor De Llenar los datos solicitados'
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'El evento se ha creado correctamente!',
-                        text: 'Click para continuar!',
-                        icon: 'success',
-                    }).then(() => {
-                        window.location.href = 'http://localhost/copytickets/public/';
-                    })
+        let fechaSeleccionada = $("#fecha").val();
+        //fechaActual contiene un formato para convertir la fecha en YYYY-MM-DD
+        let fechaActual = new Date().toISOString().slice(0,10);
+        if(fechaSeleccionada < fechaActual){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'La fecha seleccionada ya caducó, favor de seleccionar una nueva fecha.'
+            });
+        }else{
+            let metodo = $(this).attr('method');
+            let action = $(this).attr('action');
+            let datos = $(this).serializeArray();
+
+            $.ajax({
+                url: action,
+                method: metodo,
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log(response);
+                    if (response) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Favor De Llenar los datos solicitados'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'El evento se ha creado correctamente!',
+                            text: 'Click para continuar!',
+                            icon: 'success',
+                        }).then(() => {
+                            window.location.href = 'http://localhost/copytickets/public/';
+                        })
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error en la solicitud AJAX:");
+                    console.log("Estado: " + status);
+                    console.log("Error: " + error);
                 }
-            },
-            error: function(xhr, status, error) {
-                console.log("Error en la solicitud AJAX:");
-                console.log("Estado: " + status);
-                console.log("Error: " + error);
-            }
-        })
-    })
-})
+            });
+        }
+    });
+});
 </script>
 <?= $this->endSection() ?>
