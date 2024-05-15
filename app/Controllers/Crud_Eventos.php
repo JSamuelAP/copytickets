@@ -93,8 +93,14 @@ class Crud_Eventos extends BaseController
               "imagen" => $rutaImagen, // Guardar la ruta de la imagen en la base de datos
               "organizador_id" => $this->request->getPost('organizador_id')
           ];
-          $this->eventos_model->insert($data);
-          
+          $evento_id = $this->eventos_model->insert($data);
+
+          if($evento_id){
+            $data2 = ["usuario" => $this->request->getPost('usuario_escaner'),
+            "password" => $this->request->getPost('password_escaner'),
+            'evento_id' => $evento_id];
+          }
+          $this->escaner_model->insert($data2);
       } catch (\Exception $e) {
           log_message('error', 'Error al procesar la solicitud: ' . $e->getMessage());
           return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
