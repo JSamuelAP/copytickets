@@ -2,15 +2,16 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
 use App\Models\Usuario_Model;
 use App\Models\Eventos_Model;
+use CodeIgniter\HTTP\RedirectResponse;
+use Exception;
 
 
 class Crud_User extends BaseController
 {
-  protected $usuario;
-  protected $evento_model;
+  protected Usuario_Model $usuario;
+  protected Eventos_Model $evento_model;
 
   public function __construct()
   {
@@ -25,17 +26,17 @@ class Crud_User extends BaseController
       $resp = $this->usuario->Login($data['email'], $data['password']);
       if (isset($resp) > 0) {
         $_SESSION['datos'] = $resp;
-        if ($_SESSION['datos']['rol'] == 1) {
+        if ($_SESSION['datos']['rol'] == 1)
           return redirect()->to('/');
-        } else if ($_SESSION['datos']['rol'] == 2) {
+        else if ($_SESSION['datos']['rol'] == 2)
           return redirect()->to('/');
-        }
-      } else {
-        throw new \Exception('No se encontraron resultados');
-      }
-    } catch (\Exception $e) {
+      } else
+        throw new Exception('No se encontraron resultados');
+    } catch (Exception $e) {
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
-      return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
+      return $this->response->setStatusCode(500)->setJSON([
+        'error' => $e->getMessage()
+      ]);
     }
   }
 
@@ -49,9 +50,11 @@ class Crud_User extends BaseController
         return view('usuarios/organizador-perfil.php', $data);
       }
       return $this->response->setJSON(['success' => true]);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
-      return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
+      return $this->response->setStatusCode(500)->setJSON([
+        'error' => $e->getMessage()
+      ]);
     }
   }
 
@@ -70,9 +73,11 @@ class Crud_User extends BaseController
       );
       $this->usuario->insert($data);
       return $this->response->setJSON(['success' => true]);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
-      return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
+      return $this->response->setStatusCode(500)->setJSON([
+        'error' => $e->getMessage()
+      ]);
     }
 
   }
@@ -90,13 +95,15 @@ class Crud_User extends BaseController
       );
       $this->usuario->update($data, $id);
 
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
-      return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
+      return $this->response->setStatusCode(500)->setJSON([
+        'error' => $e->getMessage()
+      ]);
     }
   }
 
-  function DestruirSesion()
+  function DestruirSesion(): RedirectResponse
   {
     session()->destroy();
     return redirect()->to('public/');

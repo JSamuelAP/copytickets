@@ -12,7 +12,7 @@ class Crud_Eventos extends BaseController
 {
   protected Eventos_Model $eventos_model;
   protected Usuario_Model $organizador_model;
-  protected $escaner_model;
+  protected Escaner_Model $escaner_model;
 
   public function __construct()
   {
@@ -133,7 +133,7 @@ class Crud_Eventos extends BaseController
     }
   }
 
-  function subirImagen()
+  function subirImagen(): string
   {
     $img = $this->request->getFile('imagen');
     $rutaImagen = '';
@@ -144,11 +144,12 @@ class Crud_Eventos extends BaseController
       $img->move($ruta, $nombreImagen);
       $rutaImagen = 'public/images/' . $nombreImagen;
     } else {
-      throw new \Exception($img->getErrorString());
+      throw new Exception($img->getErrorString());
     }
 
     return $rutaImagen;
   }
+
 
   function contEdit_Eventos($id)
   {
