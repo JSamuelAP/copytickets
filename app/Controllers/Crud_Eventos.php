@@ -42,7 +42,6 @@ class Crud_Eventos extends BaseController
         $data = ['titulo' => 'PXNDX en León | CopyTickets 🎫',
           'cartelera' => $this->eventos_model->find($id),
           'organizador' => $this->organizador_model->findAll()];
-          print_r($data['cartelera']);
         /* TODO: obtener el evento y pasarselo a la vista */
         return view('eventos/evento', $data);
         return $this->response->setJSON(['success' => true]);

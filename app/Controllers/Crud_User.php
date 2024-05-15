@@ -43,7 +43,6 @@ class Crud_User extends  BaseController
                 $data = ['titulo' => 'Perfil organizador | CopyTickets 🎫',
                         'organizador' => $this->usuario->find($id),
                         'cartelera' => $this->evento_model->consultarEventos($id)];
-                        print_r($data['cartelera']);
                 return view('usuarios/organizador-perfil.php', $data);
               return $this->response->setJSON(['success' => true]);  
             }
