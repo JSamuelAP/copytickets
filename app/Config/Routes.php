@@ -40,3 +40,5 @@ $routes->post('Crud_User/ValidandoDatos', 'Crud_User::ValidandoDatos');
 $routes->post('eventos/generar', 'Crud_Eventos::contGenerate_Eventos');
 
 $routes->post('escaner/login', 'Escaner::login');
+
+$routes->post('Actualizar/(:num)/evento', 'Crud_Eventos::contEdit_Eventos/$1');

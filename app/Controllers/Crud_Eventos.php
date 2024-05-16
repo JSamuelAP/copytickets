@@ -77,7 +77,8 @@ class Crud_Eventos extends BaseController
       if (isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2) {
         // TODO: Traer información del evento por $id
         // TODO: validar que el organizador actual es dueño del evento
-        $data = ['titulo' => 'Editar evento (nombre del evento) | CopyTickets 🎫'];
+        $data = ['titulo' => 'Editar evento (nombre del evento) | CopyTickets 🎫',
+                 'editCartel' => $this->eventos_model->find($id)];
         return view('eventos/editar', $data);
       } else {
         return redirect()->to('public');
@@ -155,11 +156,9 @@ class Crud_Eventos extends BaseController
   {
     try {
       $data = array(
-        "id" => $this->request->getPost("id"),
         "descripcion" => $this->request->getPost("descripcion"),
-        "imagen" => $this->request->getFile("imagen")
       );
-      $this->eventos_model->update($data, $id);
+      $this->eventos_model->update($id, $data);
       return $this->response->setStatusCode(200)->setJSON([
         'message' => 'Evento editado satisfactoriamente'
       ]);
