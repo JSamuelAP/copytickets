@@ -26,6 +26,7 @@
                   </a>
               <?php endif; ?>
             </div>
+            <!-- TODO: Aquí va el nombre del organizador -->
             <a href="<?= base_url(
               'public/organizador/perfil/' . $cartelera['organizador_id']
             ) ?>"
@@ -36,7 +37,10 @@
             </p>
             <p class="mb-4 fs-5">
                 <i class="bi bi-calendar-check-fill"></i>
-              <?= $cartelera['fecha'] ?>, <?= $cartelera['hora'] ?>
+              <?php
+              helper('formateador');
+              echo fechaHoraLarga($cartelera['fecha'], $cartelera['hora']);
+              ?>
             </p>
             <p>
               <?= $cartelera['descripcion'] ?>
@@ -56,14 +60,14 @@
                                class="form-control">
                     </div>
                 </div>
-                <?php if($cartelera['fecha'] > date('Y-m-d')):?>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-lg btn-primary">
-                        <i class="bi bi-cart"></i>
-                        Comprar
-                    </button>
-                </div>
-                <?php endif;?>
+              <?php if ($cartelera['fecha'] > date('Y-m-d')): ?>
+                  <div class="d-grid">
+                      <button type="submit" class="btn btn-lg btn-primary">
+                          <i class="bi bi-cart"></i>
+                          Comprar
+                      </button>
+                  </div>
+              <?php endif; ?>
 
             </form>
             <p class="fs-5 mb-0">Capacidad: </p>

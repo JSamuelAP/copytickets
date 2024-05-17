@@ -1,5 +1,6 @@
 <?= $this->extend('layout/base.php') ?>
 
+<?php helper('formateador'); ?>
 <?= $this->section('contenido') ?>
 <h1 class="text-center mt-5">¡Gracias por tu compra!</h1>
 <div class="d-flex flex-column align-items-center mt-3 mb-5">
@@ -28,7 +29,8 @@
                 Foro del lago, León Gto</p>
             <p class="mb-4">
                 <i class="bi bi-calendar-check-fill me-1"></i>
-                Sábado 30 septiembre, 21:00</p>
+                <?= fechaHoraLarga('2024-09-30', '22:00:00') ?>
+            </p>
             <p class="mb-5">
                 Manrique Galván Omar Manuel<br>
                 Cantidad de entradas: <span class="fw-bold">3</span><br>
