@@ -18,7 +18,7 @@
             <div class="col-12 col-md-6 col-lg-3">
                 <label for="imagen" class="form-label">Imágen</label>
                 <input type="file" class="form-control" name="imagen"
-                       id="imagen" accept="image/*">
+                       id="imagen" accept="image/*" value="<?= base_url($editCartel['imagen'])?>">
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <label for="categoria" class="form-label">Categoria</label>
@@ -76,54 +76,43 @@
 <script>
 $(document).ready(function() {
     $("#ActualizarBtn").submit(function(e) {
-        e.preventDefault();
-        let fechaSeleccionada = $("#fecha").val();
-        //fechaActual contiene un formato para convertir la fecha en YYYY-MM-DD
-        let fechaActual = new Date().toISOString().slice(0,10);
-        if(fechaSeleccionada < fechaActual){
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'La fecha seleccionada ya caducó, favor de seleccionar una nueva fecha.'
-            });
-        }else{
-            let metodo = $(this).attr('method');
-            let action = $(this).attr('action');
-            let datos = $(this).serializeArray();
+        e.preventDefault();  
+        let metodo = $(this).attr('method');
+        let action = $(this).attr('action');
+        let formData = new FormData(this);
 
-            $.ajax({
-                url: action,
-                method: metodo,
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    console.log(response);
-                    if (!response) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'No se detecto ningun cambio, favor de realizar un cambio o salir del evento.'
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'El evento se ha creado correctamente!',
-                            text: 'Click para continuar!',
-                            icon: 'success',
-                        }).then(() => {
-                            window.location.href = '<?= base_url('public/eventos/'.$editCartel['id'].'/editar')?>';
-
-                        })
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.log("Error en la solicitud AJAX:");
-                    console.log("Estado: " + status);
-                    console.log("Error: " + error);
+        $.ajax({
+            url: action,
+            method: metodo,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log(response);
+                if (!response) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'No se detectó ningún cambio, favor de realizar un cambio o salir del evento.'
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'El evento se ha actualizado correctamente!',
+                        text: 'Click para continuar!',
+                        icon: 'success',
+                    }).then(() => {
+                        window.location.href = '<?= base_url('public/eventos/'.$editCartel['id'].'/editar')?>';
+                    })
                 }
-            });
-        }
+            },
+            error: function(xhr, status, error) {
+                console.log("Error en la solicitud AJAX:");
+                console.log("Estado: " + status);
+                console.log("Error: " + error);
+            }
+        });
     });
 });
+
 </script>
 <?= $this->endSection() ?>

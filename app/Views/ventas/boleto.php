@@ -5,7 +5,8 @@
 <div class="d-flex flex-column align-items-center mt-3 mb-5">
     <div class="card" style="width: 20rem;">
         <img
-                src="<?= base_url('public/uploads/qr.png') ?>"
+                id="qrCodeImage"
+                src="<?= $cartel['qr_img_url'] ?>"
                 class="card-img-top"
                 alt="Código QR"
         >
@@ -22,17 +23,17 @@
                             position: absolute;
                             ">
             </div>
-            <h5 class="card-title text-center mb-3">PXNDX en León</h5>
+            <h5 class="card-title text-center mb-3"><?= $cartel['nombre']?> </h5>
             <p class="mb-0">
                 <i class="bi bi-geo-alt-fill me-1"></i>
-                Foro del lago, León Gto</p>
+                <?= $cartel['ubicacion']?></p>
             <p class="mb-4">
                 <i class="bi bi-calendar-check-fill me-1"></i>
-                Sábado 30 septiembre, 21:00</p>
+                <?= $cartel['fecha']?>, <?= $cartel['hora']?></p>
             <p class="mb-5">
-                Manrique Galván Omar Manuel<br>
-                Cantidad de entradas: <span class="fw-bold">3</span><br>
-                Precio: <span class="fw-bold">$1,800 MXN</span>
+            <?= $_SESSION['datos']['nombre']?><br>
+                Cantidad de entradas: <span class="fw-bold"><?= $cartel['cantidad']?></span><br>
+                Precio: <span class="fw-bold">$<?= $cartel['total']?> MXN</span>
             </p>
             <p class="text-center text-body-tertiary">CopyTickets &copy;
                 2024</p>

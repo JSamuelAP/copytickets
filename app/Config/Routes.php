@@ -27,8 +27,9 @@ $routes->get(
 );
 $routes->get('DestruirSesion', 'Crud_User::DestruirSesion');
 
-$routes->get('compras/', 'Ventas::index');
+$routes->get('compras/(:num)', 'Ventas::index/$1');
 $routes->get('boletos/(:num)', 'Ventas::boleto/$1');
+
 
 //Rutas para los datos
 $routes->post(
@@ -42,3 +43,5 @@ $routes->post('eventos/generar', 'Crud_Eventos::contGenerate_Eventos');
 $routes->post('escaner/login', 'Escaner::login');
 
 $routes->post('Actualizar/(:num)/evento', 'Crud_Eventos::contEdit_Eventos/$1');
+
+$routes->post('pagar/boleto', 'Ventas::pagarBoleto');

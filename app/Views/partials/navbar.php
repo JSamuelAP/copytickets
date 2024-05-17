@@ -20,7 +20,7 @@
               </ul>
               <ul class="navbar-nav">
                   <li class="nav-item">
-                      <a href="#" class="nav-link">Dashboard</a>
+                      <a href="<?= base_url('public/compras/'.$_SESSION['datos']['id']) ?>" class="nav-link">Dashboard</a>
                   </li>
                   <li class="nav-item">
                       <a href="<?= base_url('public/DestruirSesion') ?>"

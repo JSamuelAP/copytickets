@@ -38,10 +38,14 @@ class Crud_Eventos extends BaseController
   function contMostrar_Evento($id)
   {
     try {
-      $data = ['titulo' => 'PXNDX en León | CopyTickets 🎫',
+      if(isset($_SESSION)){
+        $data = ['titulo' => 'PXNDX en León | CopyTickets 🎫',
         'cartelera' => $this->eventos_model->find($id),
-        'organizador' => $this->organizador_model->findAll()];
+        'organizador' => $this->organizador_model->find($id),
+        'escaner_usuario' => $this->escaner_model->mostrarUsuario($id),
+      ];
       return view('eventos/evento', $data);
+      }
     } catch (Exception $e) {
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
       return $this->response->setStatusCode(500)->setJSON([

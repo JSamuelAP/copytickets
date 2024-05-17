@@ -115,7 +115,7 @@ $(document).ready(function() {
                 contentType: false,
                 success: function(response) {
                     console.log(response);
-                    if (response) {
+                    if (!response) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
