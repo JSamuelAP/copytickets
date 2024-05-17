@@ -69,6 +69,10 @@
         </div>
     </section>
     <div class="text-center my-5">
+        <a
+                href="<?= base_url('public/eventos/18') ?>"
+                class="btn btn-lg btn-secondary me-1"
+        >Cancelar</a>
         <input type="submit" value="Actualizar evento"
                class="btn btn-lg btn-primary">
     </div>

@@ -1,5 +1,6 @@
 <?= $this->extend('layout/base.php') ?>
 
+<?php helper('formateador') ?>
 <?= $this->section('contenido') ?>
 <section class="mt-4">
     <div class="row">
@@ -55,14 +56,17 @@
                               <div class="card-body">
                                   <div class="row">
                                       <div class="col">
-                                          <h5 class="card-title fs-3 text-body"><?= $carteleras['nombre'] ?></h5>
+                                          <h5 class="card-title fs-3 text-body">
+                                            <?= $carteleras['nombre'] ?>
+                                          </h5>
                                           <p class="card-text text-body-secondary">
-                                              <i class="bi bi-geo-alt-fill"></i> <?= $carteleras['ubicacion'] ?>
+                                              <i class="bi bi-geo-alt-fill"></i>
+                                            <?= $carteleras['ubicacion'] ?>
                                           </p>
                                       </div>
                                       <div class="col-auto">
                                           <p class="text-center fs-5 text-body">
-                                            <?= $carteleras['fecha'] ?>
+                                            <?= fechaCorta($carteleras['fecha']) ?>
                                           </p>
                                       </div>
                                   </div>
@@ -96,14 +100,17 @@
                               <div class="card-body">
                                   <div class="row">
                                       <div class="col">
-                                          <h5 class="card-title fs-3 text-body"><?= $carteleraspasada['nombre'] ?></h5>
+                                          <h5 class="card-title fs-3 text-body">
+                                            <?= $carteleraspasada['nombre'] ?>
+                                          </h5>
                                           <p class="card-text text-body-secondary">
-                                              <i class="bi bi-geo-alt-fill"></i> <?= $carteleraspasada['ubicacion'] ?>
+                                              <i class="bi bi-geo-alt-fill"></i>
+                                            <?= $carteleraspasada['ubicacion'] ?>
                                           </p>
                                       </div>
                                       <div class="col-auto">
                                           <p class="text-center fs-5 text-body">
-                                            <?= $carteleraspasada['fecha'] ?>
+                                            <?= fechaCorta($carteleras['fecha']) ?>
                                           </p>
                                       </div>
                                   </div>

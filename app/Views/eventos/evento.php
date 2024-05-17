@@ -78,8 +78,10 @@
                 $_SESSION['datos']['id'] == $cartelera['organizador_id']
               ): ?>
                   <p class="text-center mb-4">
-                      <a href="<?= $_SESSION['datos']['id'] ?>/estadisticas"
-                         class="link-primary">Ver estadisticas</a>
+                      <a href="<?= $_SESSION['datos']['id'] ?>/estadisticas">
+                          <i class="bi bi-clipboard2-data-fill"></i>
+                          Ver estadisticas
+                      </a>
                   </p>
                   <p class="fs-5 mb-0">Usuario escáner: </p>
                   <div class="mb-2">
