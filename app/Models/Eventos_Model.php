@@ -18,4 +18,24 @@ class Eventos_Model extends Model
       ->findAll();
     return $consulta;
   }
+
+  //Hace un Inner join hacia varios eventos que el usuario compro
+  function joinEventos($id){
+    $consulta = $this->select('eventos.*, ventas.*')
+                      ->join('ventas', 'ventas.evento_id = eventos.id')
+                      ->where('ventas.usuario_id', $id)
+                      ->findAll();
+    return $consulta;
+}
+
+//Hace un inner join hacia un evento en especifico del usuario
+function joinEvento($id){
+  $consulta = $this->select('eventos.* , ventas.* , boletos.* ')
+                    ->join('ventas', 'ventas.evento_id = eventos.id')
+                    ->join('boletos', 'boletos.venta_id = ventas.id')
+                    ->where('ventas.id', $id)
+                    ->first();
+  return $consulta;
+}
+
 }

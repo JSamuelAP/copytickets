@@ -38,10 +38,14 @@ class Crud_Eventos extends BaseController
   function contMostrar_Evento($id)
   {
     try {
-      $data = ['titulo' => 'PXNDX en León | CopyTickets 🎫',
+      if(isset($_SESSION)){
+        $data = ['titulo' => 'PXNDX en León | CopyTickets 🎫',
         'cartelera' => $this->eventos_model->find($id),
-        'organizador' => $this->organizador_model->findAll()];
+        'organizador' => $this->organizador_model->find($id),
+        'escaner_usuario' => $this->escaner_model->mostrarUsuario($id),
+      ];
       return view('eventos/evento', $data);
+      }
     } catch (Exception $e) {
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
       return $this->response->setStatusCode(500)->setJSON([
@@ -77,7 +81,8 @@ class Crud_Eventos extends BaseController
       if (isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2) {
         // TODO: Traer información del evento por $id
         // TODO: validar que el organizador actual es dueño del evento
-        $data = ['titulo' => 'Editar evento (nombre del evento) | CopyTickets 🎫'];
+        $data = ['titulo' => 'Editar evento (nombre del evento) | CopyTickets 🎫',
+                 'editCartel' => $this->eventos_model->find($id)];
         return view('eventos/editar', $data);
       } else {
         return redirect()->to('public');
@@ -155,11 +160,9 @@ class Crud_Eventos extends BaseController
   {
     try {
       $data = array(
-        "id" => $this->request->getPost("id"),
         "descripcion" => $this->request->getPost("descripcion"),
-        "imagen" => $this->request->getFile("imagen")
       );
-      $this->eventos_model->update($data, $id);
+      $this->eventos_model->update($id, $data);
       return $this->response->setStatusCode(200)->setJSON([
         'message' => 'Evento editado satisfactoriamente'
       ]);

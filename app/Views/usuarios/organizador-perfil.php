@@ -29,7 +29,7 @@
 <section class="mt-5 mb-5">
     <div class="d-flex justify-content-between mb-2">
         <h2>Proximos eventos</h2>
-      <?php if (isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2): ?>
+      <?php if (isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2 && $_SESSION['datos']['id'] == $cartelera[0]['organizador_id']): ?>
           <a
                   href="<?= base_url('public/eventos/crear') ?>"
                   class="btn btn-primary btn-lg"
