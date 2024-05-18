@@ -36,5 +36,6 @@
         </a>
     </article>
     <?php endforeach;?>
+    
 </div>
 <?= $this->endSection() ?>

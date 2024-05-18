@@ -141,7 +141,7 @@
         const qrSettings = {
             async: true,
             crossDomain: true,
-            url: 'https://qrcode68.p.rapidapi.com/classic',
+            url: 'https://qrcode68.p.rapidapi.com/gradient',
             method: 'POST',
             headers: {
                 'content-type': 'application/x-www-form-urlencoded',
@@ -155,8 +155,8 @@
                     numBoletos: $('#numBoletos').val(),
                     venta_id: <?= $cartelera['id'] ?>
                 }),
-                fill: 'black',
-                back: 'white'
+                gradient1: '(82 , 29 ,59)',
+		        gradient2: '(164 , 99 , 131)'
             },
             xhrFields: {
                 responseType: 'blob' // Solicitar la respuesta como un Blob (binario grande)

@@ -13,7 +13,8 @@ class Venta_Model extends Model{
     protected bool $allowEmptyInserts = false; 
 
     function consultarUsuarioID($id){
-        return $this->where('usuario_id', $id)
+        $consulta = $this->where('usuario_id', $id)
                     ->findAll();
+        return $consulta;
     }
 }
