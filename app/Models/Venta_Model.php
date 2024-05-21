@@ -17,4 +17,13 @@ class Venta_Model extends Model{
                     ->findAll();
         return $consulta;
     }
+
+    function totalEntradas($id){
+        $consulta = $this->select('SUM(ventas.cantidad) as total_cantidad')
+                         ->join('eventos', 'eventos.id = ventas.evento_id')
+                         ->where('eventos.id', $id)
+                         ->get()
+                         ->getRowArray();
+                         return $consulta['total_cantidad'];
+    }
 }
