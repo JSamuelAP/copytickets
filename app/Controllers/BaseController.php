@@ -62,7 +62,10 @@ abstract class BaseController extends Controller
     $this->session = \Config\Services::session();
   }
 
-  public function getResponse(array $responseBody, int $code = ResponseInterface::HTTP_OK)
+  public function getResponse(
+    array $responseBody,
+    int   $code = ResponseInterface::HTTP_OK
+  )
   {
     return $this->response->setStatusCode($code)->setJSON($responseBody);
   }
@@ -75,7 +78,11 @@ abstract class BaseController extends Controller
     return $input;
   }
 
-  public function validateRequest($input, array $rules, array $messages = [])
+  public function validateRequest(
+    $input,
+    array $rules,
+    array $messages = []
+  ): bool
   {
     $this->validator = Services::validation()->setRules($rules);
     if (is_string($rules)) {
