@@ -21,7 +21,7 @@
       <?= $cartel['ubicacion']?></p>
         <p class="mb-4">
             <i class="bi bi-calendar-check-fill me-1"></i>
-          <?= fechaHoraLarga($cartel['fecha'], $cartel['hora']) ?>
+             <?= $cartel['fecha'] ?> <?= $cartel['hora'] ?>
         </p>
         <p class="mb-5">
           <?= $_SESSION['datos']['nombre']?><br>

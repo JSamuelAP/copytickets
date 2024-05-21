@@ -7,6 +7,8 @@ use App\Models\Boletos_Model;
 use App\Models\Eventos_Model;
 use App\Models\Usuario_Model;
 use App\Models\Venta_Model;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class Ventas extends BaseController
 {
@@ -110,4 +112,23 @@ class Ventas extends BaseController
         ]);
     }
   }
+
+  public function boletoPDF($id) {
+    try {
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new Dompdf($options);
+        $data = ['cartel' => $this->eventos->joinEvento($id)];
+        $html = view('components/boletoCard', $data);
+        $dompdf->loadHtml($html);
+        // Define el tamaño personalizado para el papel (por ejemplo, 100x150 mm)
+        $dompdf->setPaper([0, 60, 250, 400], 'portrait');
+        $dompdf->render();
+        $dompdf->stream("boleto.pdf", array("Attachment" => 0));
+    } catch (\Exception $e) {
+        log_message('error', $e->getMessage());
+        return $this->response->setStatusCode(500)->setBody($e->getMessage());
+    }
+}
+
 }

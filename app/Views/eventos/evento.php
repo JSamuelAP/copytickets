@@ -24,7 +24,7 @@
             </div>
             <!-- TODO: Aquí va el nombre del organizador -->
             <a href="<?= base_url('public/organizador/perfil/' . $cartelera['organizador_id']) ?>"
-               class="fs-5"><?= $cartelera['nombre'] ?></a>
+               class="fs-5"><?= $organizador['nombre'] ?></a>
             <p class="mb-2 mt-5 fs-5">
                 <i class="bi bi-geo-alt-fill"></i>
               <?= $cartelera['ubicacion'] ?>
@@ -165,7 +165,7 @@
             <section>
               <?php if (isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2 && $_SESSION['datos']['id'] == $cartelera['organizador_id']) : ?>
                   <p class="text-center mb-4">
-                      <a href="<?= $_SESSION['datos']['id'] ?>/estadisticas">
+                      <a href="<?= $cartelera['id'] ?>/estadisticas">
                           <i class="bi bi-clipboard2-data-fill"></i>
                           Ver estadisticas
                       </a>

@@ -30,6 +30,7 @@ $routes->get('DestruirSesion', 'Crud_User::DestruirSesion');
 $routes->get('compras/(:num)', 'Ventas::index/$1');
 $routes->get('boletos/(:num)', 'Ventas::boleto/$1');
 
+$routes->get('descargar/(:num)/boletos', 'Ventas::boletoPDF/$1');
 
 //Rutas para los datos
 $routes->post(

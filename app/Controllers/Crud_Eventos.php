@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Usuario_Model;
 use App\Models\Eventos_Model;
 use App\Models\Escaner_Model;
+use App\Models\Venta_Model;
 use Exception;
 
 
@@ -13,12 +14,14 @@ class Crud_Eventos extends BaseController
   protected Eventos_Model $eventos_model;
   protected Usuario_Model $organizador_model;
   protected Escaner_Model $escaner_model;
+  protected Venta_Model $ventas_model;
 
   public function __construct()
   {
     $this->eventos_model = new Eventos_Model();
     $this->organizador_model = new Usuario_Model();
     $this->escaner_model = new Escaner_Model();
+    $this->ventas_model = new Venta_Model();
   }
 
   function contMostrar_Eventos()
@@ -41,7 +44,7 @@ class Crud_Eventos extends BaseController
       if(isset($_SESSION)){
         $data = ['titulo' => 'PXNDX en León | CopyTickets 🎫',
         'cartelera' => $this->eventos_model->find($id),
-        'organizador' => $this->organizador_model->find($id),
+        'organizador' => $this->organizador_model->first($id),
         'escaner_usuario' => $this->escaner_model->mostrarUsuario($id),
       ];
       return view('eventos/evento', $data);
@@ -95,10 +98,14 @@ class Crud_Eventos extends BaseController
     }
   }
 
-  function contMostrar_estadisticas()
+  function contMostrar_estadisticas($id)
   {
-    $data = ['titulo' => 'Estadísticas de PXNDX En León | CopyTickets 🎫'];
-    return view('eventos/estadisticas', $data);
+    if(isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2){
+      $data = ['titulo' => 'Estadísticas de PXNDX En León | CopyTickets 🎫',
+              'ventasTotal' => $this->ventas_model->totalEntradas($id)];
+              print_r($data['ventasTotal']);
+      return view('eventos/estadisticas', $data);
+    }
   }
 
   function contGenerate_Eventos()
