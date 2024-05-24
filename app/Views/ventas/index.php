@@ -10,7 +10,7 @@
              class="text-decoration-none">
               <div class="row g-0">
                   <div class="col-md-4">
-                      <img src="<?= base_url($carteles['imagen']) ?>"
+                      <img src="<?= base_url('public/images/'.$carteles['imagen']) ?>"
                            class="img-fluid rounded-start w-100 object-fit-cover"
                            alt="Banner de PNXNDX"
                            style="max-height: 150px">

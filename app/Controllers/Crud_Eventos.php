@@ -105,6 +105,8 @@ class Crud_Eventos extends BaseController
               'ventasTotal' => $this->ventas_model->totalEntradas($id)];
               print_r($data['ventasTotal']);
       return view('eventos/estadisticas', $data);
+    }else{
+      return redirect()->to('public/');
     }
   }
 
@@ -154,7 +156,7 @@ class Crud_Eventos extends BaseController
       $ruta = ROOTPATH . 'public/images';
       $nombreImagen = uniqid() . '.' . $img->getClientExtension();
       $img->move($ruta, $nombreImagen);
-      $rutaImagen = 'public/images/' . $nombreImagen;
+      $rutaImagen = $nombreImagen;
     } else {
       throw new Exception($img->getErrorString());
     }

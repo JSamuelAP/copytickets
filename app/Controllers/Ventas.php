@@ -36,6 +36,8 @@ class Ventas extends BaseController
         return $this->response->setStatusCode(201)->setJSON([
           'message' => 'Se inserto satisfactoriamente'
         ]);
+      }else{
+        return redirect()->to('public/');
       }
     }catch(\Exception $e){
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
@@ -53,6 +55,8 @@ class Ventas extends BaseController
         $data = ['titulo' => 'Boleto | CopyTickets 🎫',
                   'cartel' => $this->eventos->joinEvento($id)];
         return view('ventas/boleto', $data);
+      }else{
+        return redirect()->to('public/');
       }
     }catch(\Exception $e){
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
