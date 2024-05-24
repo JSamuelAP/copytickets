@@ -29,7 +29,7 @@
 <section class="mt-5 mb-5">
     <div class="d-flex justify-content-between mb-2">
         <h2>Proximos eventos</h2>
-      <?php if (isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2 && $_SESSION['datos']['id'] == $cartelera[0]['organizador_id']): ?>
+      <?php if (isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2 && $_SESSION['datos']['id'] == $organizador['id']): ?>
           <a
                   href="<?= base_url('public/eventos/crear') ?>"
                   class="btn btn-primary btn-lg"
@@ -47,7 +47,7 @@
                      class="text-decoration-none">
                       <div class="row g-0">
                           <div class="col-md-4">
-                              <img src="<?= base_url($carteleras['imagen']) ?>"
+                              <img src="<?= base_url('public/images/'.$carteleras['imagen']) ?>"
                                    class="img-fluid rounded-start w-100 object-fit-cover"
                                    alt="Banner de PNXNDX"
                                    style="max-height: 150px">
@@ -91,7 +91,7 @@
                      class="text-decoration-none">
                       <div class="row g-0">
                           <div class="col-md-4">
-                              <img src=" <?= base_url($carteleraspasada['imagen']) ?>"
+                              <img src=" <?= base_url('public/images/'.$carteleraspasada['imagen']) ?>"
                                    class="img-fluid rounded-start w-100 object-fit-cover"
                                    alt="Banner de PNXNDX"
                                    style="max-height: 150px">

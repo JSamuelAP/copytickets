@@ -36,6 +36,8 @@ class Ventas extends BaseController
         return $this->response->setStatusCode(201)->setJSON([
           'message' => 'Se inserto satisfactoriamente'
         ]);
+      }else{
+        return redirect()->to('public/');
       }
     }catch(\Exception $e){
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
@@ -53,6 +55,8 @@ class Ventas extends BaseController
         $data = ['titulo' => 'Boleto | CopyTickets 🎫',
                   'cartel' => $this->eventos->joinEvento($id)];
         return view('ventas/boleto', $data);
+      }else{
+        return redirect()->to('public/');
       }
     }catch(\Exception $e){
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
@@ -91,7 +95,7 @@ class Ventas extends BaseController
             file_put_contents($filePath, $codigoQR);
 
             // Guardar la URL de la imagen en la base de datos
-            $qrImgUrl = base_url('public/images/' . $boleto_id . '.png');
+            $qrImgUrl = $boleto_id . '.png';
             $data2 = [
                 "venta_id" => $boleto_id,
                 "evento_id" => $this->request->getPost("evento_id"),
@@ -121,14 +125,12 @@ class Ventas extends BaseController
         $data = ['cartel' => $this->eventos->joinEvento($id)];
         $html = view('components/boletoCard', $data);
         $dompdf->loadHtml($html);
-        // Define el tamaño personalizado para el papel (por ejemplo, 100x150 mm)
-        $dompdf->setPaper([0, 60, 250, 400], 'portrait');
+        $dompdf->setPaper([0, 0, 288, 500], 'portrait');
         $dompdf->render();
         $dompdf->stream("boleto.pdf", array("Attachment" => 0));
     } catch (\Exception $e) {
         log_message('error', $e->getMessage());
         return $this->response->setStatusCode(500)->setBody($e->getMessage());
     }
-}
-
+  }
 }

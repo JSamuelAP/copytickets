@@ -2,7 +2,7 @@
 
 <?= $this->section('contenido') ?>
     <section class="mt-3 mb-4">
-        <img src="<?= base_url($cartelera['imagen']) ?>" alt="Banner de pxndx"
+        <img src="<?= base_url('public/images/'.$cartelera['imagen']) ?>" alt="Banner de pxndx"
              class="img-fluid rounded-4 w-100 object-fit-cover"
              style="max-height: 400px;">
     </section>
@@ -214,27 +214,78 @@
                 let accion = $(this).attr('action');
                 let datos = $(this).serializeArray();
 
-                // Generar el código QR
+                // // Generar el código QR
+                // const qrSettings = {
+                //     async: true,
+                //     crossDomain: true,
+                //     url: 'https://qrcode68.p.rapidapi.com/gradient',
+                //     method: 'POST',
+                //     headers: {
+                //         'content-type': 'application/x-www-form-urlencoded',
+                //         'X-RapidAPI-Key': '69b1934308mshc03fe5f85c8934bp171fefjsn13b1e1d83905',
+                //         'X-RapidAPI-Host': 'qrcode68.p.rapidapi.com'
+                //     },
+                //     data: {
+                //         text: JSON.stringify({
+                //             nombreEvento: $('#nombreEvento').val(),
+                //             nombreComprador: $('#nombreComprador').val(),
+                //             numBoletos: $('#numBoletos').val(),
+                //             venta_id: < $cartelera['id'] ?>
+                //         }),
+                //         gradient1: '(82 , 29 ,59)',
+                //         gradient2: '(164 , 99 , 131)'
+                //     },
+                //     xhrFields: {
+                //         responseType: 'blob' // Solicitar la respuesta como un Blob (binario grande)
+                //     }
+                // };
+                
+                // Datos del código QR
+                const qrData = {
+                    data: JSON.stringify(
+                        <?= $cartelera['id'] ?>
+                    ),
+                    width: 300,
+                    height: 300,
+                    image: "https://rapidapi-prod-apis.s3.amazonaws.com/a9151bc9-7822-4401-83d5-204f100056d3.jpg",
+                    dotsOptions: {
+                        color: "#521D3B",
+                        type: "square"
+                    },
+                    cornersSquareOptions: {
+                        color: "#A46383",
+                        type: "square"
+                    },
+                    cornersDotOptions: {
+                        color: "#521D3B",
+                        type: "square"
+                    },
+                    backgroundOptions: {
+                        color: "#ffffff"
+                    },
+                    imageOptions: {
+                        hideBackgroundDots: false,
+                        imageSize: 0,
+                        margin: 0
+                    },
+                    downloadOptions: {
+                        extension: "png"
+                    }
+                };
+
+
                 const qrSettings = {
                     async: true,
                     crossDomain: true,
-                    url: 'https://qrcode68.p.rapidapi.com/gradient',
+                    url: 'https://qr-code-generator152.p.rapidapi.com/api/createQrCode',
                     method: 'POST',
                     headers: {
-                        'content-type': 'application/x-www-form-urlencoded',
+                        'content-type': 'application/json',
                         'X-RapidAPI-Key': '69b1934308mshc03fe5f85c8934bp171fefjsn13b1e1d83905',
-                        'X-RapidAPI-Host': 'qrcode68.p.rapidapi.com'
+                        'X-RapidAPI-Host': 'qr-code-generator152.p.rapidapi.com'
                     },
-                    data: {
-                        text: JSON.stringify({
-                            nombreEvento: $('#nombreEvento').val(),
-                            nombreComprador: $('#nombreComprador').val(),
-                            numBoletos: $('#numBoletos').val(),
-                            venta_id: <?= $cartelera['id'] ?>
-                        }),
-                        gradient1: '(82 , 29 ,59)',
-                        gradient2: '(164 , 99 , 131)'
-                    },
+                    processData: false,
+                    data: JSON.stringify(qrData),
                     xhrFields: {
                         responseType: 'blob' // Solicitar la respuesta como un Blob (binario grande)
                     }
@@ -296,3 +347,5 @@
     </script>
 
 <?= $this->endSection() ?>
+
+
