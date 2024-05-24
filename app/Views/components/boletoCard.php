@@ -1,6 +1,8 @@
+<?php helper('formateador_helper'); ?>
+
 <div class="card" style="width: 20rem;">
     <img
-            src="<?= $cartel['qr_img_url'] ?>"
+            src="<?= base_url('public/images/'.$cartel['qr_img_url']) ?>"
             class="card-img-top"
             alt="Código QR"
     >
@@ -21,7 +23,7 @@
       <?= $cartel['ubicacion']?></p>
         <p class="mb-4">
             <i class="bi bi-calendar-check-fill me-1"></i>
-             <?= $cartel['fecha'] ?> <?= $cartel['hora'] ?>
+             <?= fechaHoraLarga($cartel['fecha'] , $cartel['hora']) ?>
         </p>
         <p class="mb-5">
           <?= $_SESSION['datos']['nombre']?><br>
