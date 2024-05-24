@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use Exception;
 
 class Escaner_Model extends Model
 {
@@ -19,11 +20,16 @@ class Escaner_Model extends Model
       ->first();
   }
 
+  function mostrarUsuario($id){
+    return $this->where("evento_id", $id)
+           ->first();
+  }
+
   function findEscanerByID(string $id)
   {
     $escaner = $this->where('id', $id)->first();
 
-    if (!$escaner) return throw new \Exception('No se encontró el escaner con tal id');
+    if (!$escaner) return throw new Exception('No se encontró el escaner con tal id');
 
     return $escaner;
   }
