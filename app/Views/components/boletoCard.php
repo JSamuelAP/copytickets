@@ -1,12 +1,26 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Descargame | CopyTickets</title>
+    <!-- Bootstrap CSS -->
+    <link
+            href="<?= base_url('vendor/twbs/bootstrap/dist/css/bootstrap.min.css') ?>"
+            rel="stylesheet"
+    >
+</head>
+<body>
 <?php helper('formateador_helper'); ?>
-
-<div class="card" style="width: 20rem;">
+<div style="width: 20rem;">
     <img
-            src="<?= base_url('public/images/'.$cartel['qr_img_url']) ?>"
-            class="card-img-top"
+            src="<?= base_url('public/images/' . $cartel['qr_img_url']) ?>"
+            class="mb-4"
             alt="Código QR"
     >
-    <div class="card-body position-relative">
+    <div class="position-relative">
         <div
                 style="
                         width: 18rem;
@@ -17,21 +31,28 @@
                         position: absolute;
                         ">
         </div>
-        <h5 class="card-title text-center mb-3"><?= $cartel['nombre']?> </h5>
+        <p class="text-center mb-3 fw-bold" style="font-size: 20px;">
+          <?= $cartel['nombre'] ?>
+        </p>
         <p class="mb-0">
-            <i class="bi bi-geo-alt-fill me-1"></i>
-      <?= $cartel['ubicacion']?></p>
+            <img src="<?= base_url("public/images/geo-alt-fill.svg") ?>"
+                 alt="Ubicación: ">
+          <?= $cartel['ubicacion'] ?></p>
         <p class="mb-4">
-            <i class="bi bi-calendar-check-fill me-1"></i>
-             <?= fechaHoraLarga($cartel['fecha'] , $cartel['hora']) ?>
+            <img src="<?= base_url("public/images/calendar-check-fill.svg") ?>"
+                 alt="Fecha y hora: ">
+          <?= fechaHoraLarga($cartel['fecha'], $cartel['hora']) ?>
         </p>
         <p class="mb-5">
-          <?= $_SESSION['datos']['nombre']?><br>
-            Cantidad de entradas: <span class="fw-bold"><?= $cartel['cantidad']?></span><br>
-            Precio: <span class="fw-bold">$<?= $cartel['total']?> MXN</span>
+          <?= $_SESSION['datos']['nombre'] ?><br>
+            Cantidad de entradas: <span
+                    class="fw-bold"><?= $cartel['cantidad'] ?></span><br>
+            Precio: <span class="fw-bold">$<?= $cartel['total'] ?> MXN</span>
         </p>
         <p class="text-center text-body-tertiary">
             CopyTickets &copy; 2024
         </p>
     </div>
 </div>
+</body>
+</html>

@@ -2,20 +2,20 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
 use App\Models\Boletos_Model;
 use App\Models\Eventos_Model;
 use App\Models\Usuario_Model;
 use App\Models\Venta_Model;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Exception;
 
 class Ventas extends BaseController
 {
-  protected $usuario;
-  protected $ventas;
-  protected $eventos;
-  protected $boletos;
+  protected Venta_Model $ventas;
+  protected Usuario_Model $usuario;
+  protected Eventos_Model $eventos;
+  protected Boletos_Model $boletos;
 
   public function __construct()
   {
@@ -33,13 +33,10 @@ class Ventas extends BaseController
         'usuario' => $this->usuario->find($id),
         'cartel' => $this->eventos->joinEventos($_SESSION['datos']['id'])];
         return view('ventas/index', $data);
-        return $this->response->setStatusCode(201)->setJSON([
-          'message' => 'Se inserto satisfactoriamente'
-        ]);
       }else{
         return redirect()->to('public/');
       }
-    }catch(\Exception $e){
+    }catch(Exception $e){
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
       return $this->response->setStatusCode(500)->setJSON([
         'error' => $e->getMessage()
@@ -58,7 +55,7 @@ class Ventas extends BaseController
       }else{
         return redirect()->to('public/');
       }
-    }catch(\Exception $e){
+    }catch(Exception $e){
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
       return $this->response->setStatusCode(500)->setJSON([
         'error' => $e->getMessage()
@@ -86,7 +83,7 @@ class Ventas extends BaseController
             $codigoQR = $this->request->getPost("codigoQR");
 
             // Extraer la parte base64 del data URL
-            list($type, $codigoQR) = explode(';', $codigoQR);
+            list(, $codigoQR) = explode(';', $codigoQR);
             list(, $codigoQR) = explode(',', $codigoQR);
             $codigoQR = base64_decode($codigoQR);
 
@@ -109,7 +106,7 @@ class Ventas extends BaseController
                 'qr_img_url' => $qrImgUrl  // Retornar la URL para verificar
             ]);
         }
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         log_message('error', 'Error al procesar la solicitud: ' . $e->getMessage());
         return $this->response->setStatusCode(500)->setJSON([
             'error' => $e->getMessage()
@@ -125,10 +122,10 @@ class Ventas extends BaseController
         $data = ['cartel' => $this->eventos->joinEvento($id)];
         $html = view('components/boletoCard', $data);
         $dompdf->loadHtml($html);
-        $dompdf->setPaper([0, 0, 288, 500], 'portrait');
+        $dompdf->setPaper([0, 0, 290, 530]);
         $dompdf->render();
         $dompdf->stream("boleto.pdf", array("Attachment" => 0));
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         log_message('error', $e->getMessage());
         return $this->response->setStatusCode(500)->setBody($e->getMessage());
     }
