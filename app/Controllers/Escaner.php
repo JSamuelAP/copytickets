@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Boletos_Model;
 use App\Models\Escaner_Model;
+use App\Models\Venta_Model;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 
@@ -11,11 +12,13 @@ class Escaner extends BaseController
 {
   protected Escaner_Model $escaner;
   protected Boletos_Model $boleto;
+  protected Venta_Model $venta;
 
   public function __construct()
   {
     $this->escaner = new Escaner_Model();
     $this->boleto = new Boletos_Model();
+    $this->venta = new Venta_Model();
   }
 
   public function login(): ResponseInterface
@@ -73,11 +76,13 @@ class Escaner extends BaseController
         ], ResponseInterface::HTTP_BAD_REQUEST);
 
       $ticket = $this->boleto->findBoletoByID($id);
+      $venta = $this->venta->find($ticket['venta_id']);
 
       if ($ticket['usado'] == 0) {// Primera vez que se escanea, ok
         $this->boleto->marcarBoletoComoUsado($id);
         return $this->getResponse([
           'message' => 'ACEPTADO',
+          'num_entradas' => $venta['cantidad']
         ]);
       } else // Ya fue escaneado, error
         return $this->getResponse([
