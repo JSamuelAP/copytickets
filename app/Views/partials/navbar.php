@@ -20,7 +20,8 @@
               </ul>
               <ul class="navbar-nav">
                   <li class="nav-item">
-                      <a href="<?= base_url('public/compras/'.$_SESSION['datos']['id']) ?>" class="nav-link">Dashboard</a>
+                      <a href="<?= base_url('public/compras/' . $_SESSION['datos']['id']) ?>"
+                         class="nav-link">Dashboard</a>
                   </li>
                   <li class="nav-item">
                       <a href="<?= base_url('public/DestruirSesion') ?>"
@@ -46,7 +47,9 @@
           <?php } else { ?>
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                      <a class="nav-link" href="<?= base_url('public') ?>">Eventos</a>
+                      <a class="nav-link" href="<?= base_url('public') ?>">
+                          Eventos
+                      </a>
                   </li>
               </ul>
               <ul class="navbar-nav">
@@ -60,7 +63,6 @@
                   </li>
               </ul>
           <?php } ?>
-
         </div>
     </div>
 </nav>

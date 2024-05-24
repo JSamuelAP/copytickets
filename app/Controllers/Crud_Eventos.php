@@ -27,8 +27,10 @@ class Crud_Eventos extends BaseController
   function contMostrar_Eventos()
   {
     try {
-      $data = ['titulo' => 'Eventos | CopyTickets 🎫',
-        'eventos_model' => $this->eventos_model->findAll()];
+      $data = [
+        'titulo' => 'Eventos | CopyTickets 🎫',
+        'eventos_model' => $this->eventos_model->findAll()
+      ];
       return view('eventos/index', $data);
     } catch (Exception $e) {
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
