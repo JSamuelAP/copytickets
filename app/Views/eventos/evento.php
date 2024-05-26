@@ -2,7 +2,7 @@
 
 <?= $this->section('contenido') ?>
     <section class="mt-3 mb-4">
-        <img src="<?= base_url('public/images/'.$cartelera['imagen']) ?>" alt="Banner de pxndx"
+        <img src="<?= base_url('public/images/'.($cartelera['imagen'] ? $cartelera['imagen'] : 'logo.png'))?>" alt="Banner de pxndx"
              class="img-fluid rounded-4 w-100 object-fit-cover"
              style="max-height: 400px;">
     </section>

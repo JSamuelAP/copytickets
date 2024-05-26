@@ -41,7 +41,7 @@
                       <div class="row g-0">
                           <div class="col-md-4">
                               <img
-                                      src="<?= base_url('public/images/'.$ev['imagen']) ?>"
+                                      src="<?= base_url('public/images/'.($ev['imagen'] ? $ev['imagen'] : 'logo.png'))?>"
                                       class="img-fluid rounded-start w-100 object-fit-cover"
                                       alt="Banner de PNXNDX"
                                       style="max-height: 150px">
