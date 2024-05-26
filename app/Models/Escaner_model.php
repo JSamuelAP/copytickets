@@ -27,4 +27,10 @@ class Escaner_Model extends Model
 
     return $escaner;
   }
+
+  function mostrarUsuario($id)
+  {
+    return $this->where("evento_id", $id)
+      ->first();
+  }
 }

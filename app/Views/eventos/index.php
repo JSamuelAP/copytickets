@@ -6,22 +6,27 @@
     <h2>Categorías</h2>
     <div class="d-flex justify-content-center gap-5">
         <button class="btn">
-            <img src="images/icono-categoria-musica.svg" alt="" width="64"
+            <img src="<?= base_url('public/images/icono-categoria-musica.svg') ?>"
+                 alt="Nota musical icono" width="64"
                  height="64"><br>
             <span>Conciertos y festivales</span>
         </button>
         <button class="btn">
-            <img src="images/icono-categoria-teatro.svg" alt="" width="64"
+            <img src="<?= base_url('public/images/icono-categoria-teatro.svg') ?>"
+                 alt="teatro icono" width="64"
                  height="64"><br>
             <span>Teatro, Comedia y Cultura</span>
         </button>
         <button class="btn">
-            <img src="images/icono-categoria-conferencia.svg" alt="" width="64"
+            <img src="<?= base_url('public/images/icono-categoria-conferencia.svg') ?>"
+                 alt="Hombre dando conferencia icono" width="64"
                  height="64"><br>
             <span>Conferencias y talleres</span>
         </button>
         <button class="btn">
-            <img src="images/icono-categoria-otros.svg" alt="" width="64"
+            <img src="<?= base_url('public/images/icono-categoria-otros.svg') ?>"
+                 alt="ticket icono"
+                 width="64"
                  height="64"><br>
             <span>Otros</span>
         </button>
