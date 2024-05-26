@@ -19,11 +19,6 @@ class Escaner_Model extends Model
       ->first();
   }
 
-  function mostrarUsuario($id){
-    return $this->where("evento_id", $id)
-           ->first();
-  }
-
   function findEscanerByID(string $id)
   {
     $escaner = $this->where('id', $id)->first();
