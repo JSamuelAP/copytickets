@@ -47,7 +47,7 @@
                      class="text-decoration-none">
                       <div class="row g-0">
                           <div class="col-md-4">
-                              <img src="<?= base_url('public/images/'.$carteleras['imagen']) ?>"
+                              <img src="<?= base_url('public/images/'.($carteleras['imagen'] ? $carteleras['imagen'] : 'logo.png'))?>"
                                    class="img-fluid rounded-start w-100 object-fit-cover"
                                    alt="Banner de PNXNDX"
                                    style="max-height: 150px">
@@ -91,7 +91,7 @@
                      class="text-decoration-none">
                       <div class="row g-0">
                           <div class="col-md-4">
-                              <img src=" <?= base_url('public/images/'.$carteleraspasada['imagen']) ?>"
+                              <img src="<?= base_url('public/images/'.($carteleraspasada['imagen'] ? $carteleraspasada['imagen'] : 'logo.png'))?>"
                                    class="img-fluid rounded-start w-100 object-fit-cover"
                                    alt="Banner de PNXNDX"
                                    style="max-height: 150px">
