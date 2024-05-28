@@ -6,6 +6,7 @@ use CodeIgniter\Model;
 
 class Eventos_Model extends Model
 {
+
   protected $table = 'eventos';
   protected $primaryKey = 'id';
   protected $returnType = 'array';

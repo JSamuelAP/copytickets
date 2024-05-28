@@ -10,8 +10,9 @@ class Boletos_Model extends Model
   protected $table = 'boletos';
   protected $primaryKey = 'id';
   protected $returnType = 'array';
-  protected $allowedFields = ['venta_id', 'evento_id', 'usuario_id', 'usado', 'qr_img_url', 'pdf_url'];
+  protected $allowedFields = ['id','venta_id', 'evento_id', 'usuario_id', 'usado', 'qr_img_url', 'pdf_url'];
   protected bool $allowEmptyInserts = false;
+  protected $useAutoIncrement = false;
 
 
   function findBoletoByID(string $id)
