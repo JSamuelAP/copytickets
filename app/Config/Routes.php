@@ -47,3 +47,4 @@ $routes->put('escaner/escanear/(:num)', 'Escaner::escanear/$1');
 $routes->post('Actualizar/(:num)/evento', 'Crud_Eventos::contEdit_Eventos/$1');
 
 $routes->post('pagar/boleto', 'Ventas::pagarBoleto');
+$routes->post('GenerarBoleto/(:num)', 'Ventas::GenerarBoleto/$1');

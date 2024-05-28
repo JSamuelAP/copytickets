@@ -49,6 +49,7 @@ class Crud_Eventos extends BaseController
         'organizador' => $this->organizador_model->first($id),
         'escaner_usuario' => $this->escaner_model->mostrarUsuario($id),
       ];
+      print_r($data);
       return view('eventos/evento', $data);
       }
     } catch (Exception $e) {
@@ -100,12 +101,17 @@ class Crud_Eventos extends BaseController
     }
   }
 
+
   function contMostrar_estadisticas($id)
   {
     if(isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2){
       $data = ['titulo' => 'Estadísticas de PXNDX En León | CopyTickets 🎫',
-              'ventasTotal' => $this->ventas_model->totalEntradas($id)];
-              print_r($data['ventasTotal']);
+              'ventasTotal' => $this->ventas_model->totalEntradas($id),
+              'capacidadTotal' => $this->ventas_model->entradasRestantes($id),
+              'porcentajeTotal' => $this->ventas_model->porcentajeVentas($id),
+              'gananciasTotal' => $this->ventas_model->Ganancias($id),
+              'evento' => $this->eventos_model->find($id)];
+              print_r($data['evento']);
       return view('eventos/estadisticas', $data);
     }else{
       return redirect()->to('public/');

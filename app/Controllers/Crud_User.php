@@ -30,8 +30,7 @@ class Crud_User extends BaseController
           return redirect()->to('/');
         else if ($_SESSION['datos']['rol'] == 2)
           return redirect()->to('/');
-      } else
-        throw new Exception('No se encontraron resultados');
+      } 
     } catch (Exception $e) {
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
       return $this->response->setStatusCode(500)->setJSON([

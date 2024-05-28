@@ -27,4 +27,5 @@ class Usuario_Model extends Model
     function ConsultarDatos(){
        return $this->findAll();
     }
+
 }

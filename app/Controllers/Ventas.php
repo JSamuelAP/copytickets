@@ -66,8 +66,7 @@ class Ventas extends BaseController
     }
   }
 
-
-  public function pagarBoleto(){
+  public function pagarBoleto() {
     try {
         // Obtener datos del formulario
         $data = [
@@ -79,43 +78,66 @@ class Ventas extends BaseController
             "fecha" => $this->request->getPost("fecha"),
             "hora" => $this->request->getPost("hora"),
         ];
+
         // Insertar datos en la base de datos
         $boleto_id = $this->ventas->insert($data);
+        
+        // Generar y guardar el boleto
+        $this->GenerarBoleto($boleto_id);
 
-        if ($boleto_id) {
-            $codigoQR = $this->request->getPost("codigoQR");
-
-            // Extraer la parte base64 del data URL
-            list($type, $codigoQR) = explode(';', $codigoQR);
-            list(, $codigoQR) = explode(',', $codigoQR);
-            $codigoQR = base64_decode($codigoQR);
-
-            // Definir la ruta y nombre del archivo para guardar la imagen
-            $filePath = FCPATH . 'images/' . $boleto_id . '.png';
-            file_put_contents($filePath, $codigoQR);
-
-            // Guardar la URL de la imagen en la base de datos
-            $qrImgUrl = $boleto_id . '.png';
-            $data2 = [
-                "venta_id" => $boleto_id,
-                "evento_id" => $this->request->getPost("evento_id"),
-                "usuario_id" => $this->request->getPost("usuario_id"),
-                "qr_img_url" => $qrImgUrl
-            ];
-            $this->boletos->insert($data2);
-
-            return $this->response->setStatusCode(201)->setJSON([
-                'message' => 'Se insertó satisfactoriamente',
-                'qr_img_url' => $qrImgUrl  // Retornar la URL para verificar
-            ]);
-        }
+        return $this->response->setStatusCode(201)->setJSON([
+            'message' => 'Boleto creado satisfactoriamente',
+            'boleto_id' => $boleto_id  // Retornar el ID del boleto
+        ]);
     } catch (\Exception $e) {
         log_message('error', 'Error al procesar la solicitud: ' . $e->getMessage());
         return $this->response->setStatusCode(500)->setJSON([
             'error' => $e->getMessage()
         ]);
     }
+}
+
+function GenerarBoleto($boleto_id) {
+  $codigoQR = $this->request->getPost("codigoQR");
+
+  // Verificar si el formato es válido para ambos posibles encabezados
+  if (strpos($codigoQR, 'data:image') === 0 || strpos($codigoQR, 'data:application/octet-stream') === 0) {
+      // Extraer la parte base64 del data URL
+      list($type, $codigoQR) = explode(';', $codigoQR);
+      list(, $codigoQR) = explode(',', $codigoQR);
+      $codigoQR = base64_decode($codigoQR);
+
+      // Definir la ruta y nombre del archivo para guardar la imagen
+      $filePath = FCPATH . 'images/' . $boleto_id . '.png';
+      file_put_contents($filePath, $codigoQR);
+
+      // Guardar la URL de la imagen en la base de datos
+      $qrImgUrl = $boleto_id . '.png';
+
+      // Obtener otros datos del formulario
+      $evento_id = $this->request->getPost("evento_id");
+      $usuario_id = $this->request->getPost("usuario_id");
+
+      $data2 = [
+          "id" => $boleto_id,
+          "venta_id" => $boleto_id,
+          "evento_id" => $evento_id,
+          "usuario_id" => $usuario_id,
+          "qr_img_url" => $qrImgUrl
+      ];
+      $this->boletos->insert($data2);
+
+      return $this->response->setStatusCode(201)->setJSON([
+          'message' => 'Se insertó satisfactoriamente',
+          'qr_img_url' => $qrImgUrl  // Retornar la URL para verificar
+      ]);
+  } else {
+      return $this->response->setStatusCode(400)->setJSON([
+          'error' => 'Formato de código QR inválido'
+      ]);
   }
+}
+
 
   public function boletoPDF($id) {
     try {
