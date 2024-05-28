@@ -49,7 +49,6 @@ class Crud_Eventos extends BaseController
         'organizador' => $this->organizador_model->first($id),
         'escaner_usuario' => $this->escaner_model->mostrarUsuario($id),
       ];
-      print_r($data);
       return view('eventos/evento', $data);
       }
     } catch (Exception $e) {
@@ -111,7 +110,6 @@ class Crud_Eventos extends BaseController
               'porcentajeTotal' => $this->ventas_model->porcentajeVentas($id),
               'gananciasTotal' => $this->ventas_model->Ganancias($id),
               'evento' => $this->eventos_model->find($id)];
-              print_r($data['evento']);
       return view('eventos/estadisticas', $data);
     }else{
       return redirect()->to('public/');
