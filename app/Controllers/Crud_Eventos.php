@@ -43,13 +43,16 @@ class Crud_Eventos extends BaseController
   function contMostrar_Evento($id)
   {
     try {
-      if(isset($_SESSION)){
+      $evento = $this->eventos_model->find($id);
+      $organizador = $this->organizador_model->find($evento['organizador_id']);
+
+      if (isset($_SESSION)) {
         $data = ['titulo' => 'PXNDX en León | CopyTickets 🎫',
-        'cartelera' => $this->eventos_model->find($id),
-        'organizador' => $this->organizador_model->first($id),
-        'escaner_usuario' => $this->escaner_model->mostrarUsuario($id),
-      ];
-      return view('eventos/evento', $data);
+          'cartelera' => $evento,
+          'organizador' => $organizador,
+          'escaner_usuario' => $this->escaner_model->mostrarUsuario($id),
+        ];
+        return view('eventos/evento', $data);
       }
     } catch (Exception $e) {
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
@@ -84,10 +87,8 @@ class Crud_Eventos extends BaseController
   {
     try {
       if (isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2) {
-        // TODO: Traer información del evento por $id
-        // TODO: validar que el organizador actual es dueño del evento
         $data = ['titulo' => 'Editar evento (nombre del evento) | CopyTickets 🎫',
-                 'editCartel' => $this->eventos_model->find($id)];
+          'editCartel' => $this->eventos_model->find($id)];
         return view('eventos/editar', $data);
       } else {
         return redirect()->to('public');
@@ -100,18 +101,17 @@ class Crud_Eventos extends BaseController
     }
   }
 
-
   function contMostrar_estadisticas($id)
   {
-    if(isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2){
+    if (isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 2) {
       $data = ['titulo' => 'Estadísticas de PXNDX En León | CopyTickets 🎫',
-              'ventasTotal' => $this->ventas_model->totalEntradas($id),
-              'capacidadTotal' => $this->ventas_model->entradasRestantes($id),
-              'porcentajeTotal' => $this->ventas_model->porcentajeVentas($id),
-              'gananciasTotal' => $this->ventas_model->Ganancias($id),
-              'evento' => $this->eventos_model->find($id)];
+        'ventasTotal' => $this->ventas_model->totalEntradas($id),
+        'capacidadTotal' => $this->ventas_model->entradasRestantes($id),
+        'porcentajeTotal' => $this->ventas_model->porcentajeVentas($id),
+        'gananciasTotal' => $this->ventas_model->Ganancias($id),
+        'evento' => $this->eventos_model->find($id)];
       return view('eventos/estadisticas', $data);
-    }else{
+    } else {
       return redirect()->to('public/');
     }
   }
@@ -169,7 +169,6 @@ class Crud_Eventos extends BaseController
 
     return $rutaImagen;
   }
-
 
   function contEdit_Eventos($id)
   {
