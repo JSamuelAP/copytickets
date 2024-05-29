@@ -2,7 +2,7 @@
 
 <?= $this->section('contenido') ?>
     <section class="mt-3 mb-4">
-        <img src="<?= base_url('public/images/'.($cartelera['imagen'] ? $cartelera['imagen'] : 'logo.png'))?>" alt="Banner de pxndx"
+        <img src="<?= base_url('public/images/'.($cartelera['imagen'] ?: 'logo.png'))?>" alt="Banner de pxndx"
              class="img-fluid rounded-4 w-100 object-fit-cover"
              style="max-height: 400px;">
     </section>
@@ -69,6 +69,7 @@
                                   <form id="pagarEvento"
                                         action="<?= base_url('public/pagar/boleto') ?>"
                                         method="post" class="mb-5">
+                                        <input type="hidden" name="id" id="id">
                                       <div class="form-group">
                                           <label for="nombreEvento">Nombre del
                                               evento:</label>
@@ -201,148 +202,151 @@
                 let cantidad = parseInt(inputBoletos.value);
                 let precioUnitario = <?= $cartelera['precio'] ?>;
                 let total = cantidad * precioUnitario;
-                totalElemento.value = total + " MXN"; // Establece el valor del total en el input visible
+                totalElemento.value = "$"+total + " MXN"; // Establece el valor del total en el input visible
                 totalHidden.value = total; // Establece el valor del total en el campo oculto
             });
         });
 
-        $(document).ready(function () {
-            $("#pagarEvento").submit(function (e) {
-                e.preventDefault();
+$(document).ready(function () {
+    $("#pagarEvento").submit(function (e) {
+        e.preventDefault();
 
-                let metodo = $(this).attr('method');
-                let accion = $(this).attr('action');
-                let datos = $(this).serializeArray();
+        let metodo = $(this).attr('method');
+        let accion = $(this).attr('action');
+        let datos = $(this).serializeArray();
 
-                // // Generar el código QR
-                // const qrSettings = {
-                //     async: true,
-                //     crossDomain: true,
-                //     url: 'https://qrcode68.p.rapidapi.com/gradient',
-                //     method: 'POST',
-                //     headers: {
-                //         'content-type': 'application/x-www-form-urlencoded',
-                //         'X-RapidAPI-Key': '69b1934308mshc03fe5f85c8934bp171fefjsn13b1e1d83905',
-                //         'X-RapidAPI-Host': 'qrcode68.p.rapidapi.com'
-                //     },
-                //     data: {
-                //         text: JSON.stringify({
-                //             nombreEvento: $('#nombreEvento').val(),
-                //             nombreComprador: $('#nombreComprador').val(),
-                //             numBoletos: $('#numBoletos').val(),
-                //             venta_id: < $cartelera['id'] ?>
-                //         }),
-                //         gradient1: '(82 , 29 ,59)',
-                //         gradient2: '(164 , 99 , 131)'
-                //     },
-                //     xhrFields: {
-                //         responseType: 'blob' // Solicitar la respuesta como un Blob (binario grande)
-                //     }
-                // };
-                
-                // Datos del código QR
-                const qrData = {
-                    data: JSON.stringify(
-                        <?= $cartelera['id'] ?>
-                    ),
-                    width: 300,
-                    height: 300,
-                    image: "https://rapidapi-prod-apis.s3.amazonaws.com/a9151bc9-7822-4401-83d5-204f100056d3.jpg",
-                    dotsOptions: {
-                        color: "#521D3B",
-                        type: "square"
-                    },
-                    cornersSquareOptions: {
-                        color: "#A46383",
-                        type: "square"
-                    },
-                    cornersDotOptions: {
-                        color: "#521D3B",
-                        type: "square"
-                    },
-                    backgroundOptions: {
-                        color: "#ffffff"
-                    },
-                    imageOptions: {
-                        hideBackgroundDots: false,
-                        imageSize: 0,
-                        margin: 0
-                    },
-                    downloadOptions: {
-                        extension: "png"
-                    }
-                };
-
-
-                const qrSettings = {
-                    async: true,
-                    crossDomain: true,
-                    url: 'https://qr-code-generator152.p.rapidapi.com/api/createQrCode',
-                    method: 'POST',
-                    headers: {
-                        'content-type': 'application/json',
-                        'X-RapidAPI-Key': '69b1934308mshc03fe5f85c8934bp171fefjsn13b1e1d83905',
-                        'X-RapidAPI-Host': 'qr-code-generator152.p.rapidapi.com'
-                    },
-                    processData: false,
-                    data: JSON.stringify(qrData),
-                    xhrFields: {
-                        responseType: 'blob' // Solicitar la respuesta como un Blob (binario grande)
-                    }
-                };
-
-                $.ajax(qrSettings).done(function (response) {
-                    // Crear una URL de datos para la imagen del QR
-                    const reader = new FileReader();
-                    reader.onloadend = function () {
-                        const qrDataUrl = reader.result;
-
-                        // Agregar la URL de datos del QR a los datos del formulario
-                        datos.push({name: 'codigoQR', value: qrDataUrl});
-
-                        // Enviar el formulario junto con el código QR al servidor
-                        $.ajax({
-                            url: accion,
-                            method: metodo,
-                            data: datos,
-                            success: function (response) {
-                                console.log(response);
-                                if (!response) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Oops...',
-                                        text: 'Ha ocurrido un error en el servidor, favor de intentar más tarde.'
-                                    });
-                                } else {
-                                    Swal.fire({
-                                        title: '¡La compra se hizo correctamente!',
-                                        text: 'Click para continuar.',
-                                        icon: 'success',
-                                    }).then(() => {
-                                        window.location.href = '<?= base_url('public/') ?>';
-                                    });
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.log("Error en la solicitud AJAX:");
-                                console.log("Estado: " + status);
-                                console.log("Error: " + error);
-                            }
-                        });
-                    };
-                    reader.readAsDataURL(response); // Convertir Blob a una URL de datos
-                }).fail(function (xhr, status, error) {
-                    console.log("Error en la generación del código QR:");
-                    console.log("Estado: " + status);
-                    console.log("Error: " + error);
+        $.ajax({
+            url: accion,
+            method: metodo,
+            data: datos,
+            success: function(response) {
+                if (!response || !response.boleto_id) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'No se pudo generar el código QR, favor de intentar más tarde.'
+                        text: 'Datos no insertados.'
                     });
-                });
-            });
+                } else {
+                    GenerarApi(response.boleto_id, datos);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("Error en la solicitud AJAX:");
+                console.log("Estado: " + status);
+                console.log("Error: " + error);
+            }
         });
+    });
+});
+
+function GenerarApi(boleto_id, datos) {
+    const qrData = {
+        data: JSON.stringify({ boleto_id }),
+        width: 300,
+        height: 300,
+        image: "https://rapidapi-prod-apis.s3.amazonaws.com/a9151bc9-7822-4401-83d5-204f100056d3.jpg",
+        dotsOptions: {
+            color: "#521D3B",
+            type: "square"
+        },
+        cornersSquareOptions: {
+            color: "#A46383",
+            type: "square"
+        },
+        cornersDotOptions: {
+            color: "#521D3B",
+            type: "square"
+        },
+        backgroundOptions: {
+            color: "#ffffff"
+        },
+        imageOptions: {
+            hideBackgroundDots: false,
+            imageSize: 0,
+            margin: 0
+        },
+        downloadOptions: {
+            extension: "png"
+        }
+    };
+
+    const qrSettings = {
+        async: true,
+        crossDomain: true,
+        url: 'https://qr-code-generator152.p.rapidapi.com/api/createQrCode',
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            'X-RapidAPI-Key': '69b1934308mshc03fe5f85c8934bp171fefjsn13b1e1d83905',
+            'X-RapidAPI-Host': 'qr-code-generator152.p.rapidapi.com'
+        },
+        processData: false,
+        data: JSON.stringify(qrData),
+        xhrFields: {
+            responseType: 'blob' // Solicitar la respuesta como un Blob
+        }
+    };
+
+    $.ajax(qrSettings).done(function (response) {
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            const qrDataUrl = reader.result;
+
+            // Crear un objeto FormData y agregar los datos del formulario y la URL del QR
+            let formData = new FormData();
+            formData.append('codigoQR', qrDataUrl);
+            datos.forEach(item => {
+                formData.append(item.name, item.value);
+            });
+
+            console.log(formData);
+
+            // Enviar el formulario junto con el código QR al servidor
+            $.ajax({
+                url: '<?= base_url('public/GenerarBoleto/') ?>' + boleto_id,
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                    if (!response) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ha ocurrido un error en el servidor, favor de intentar más tarde.'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: '¡La compra se hizo correctamente!',
+                            text: 'Click para continuar.',
+                            icon: 'success',
+                        }).then(() => {
+                            window.location.href = '<?= base_url('public/') ?>';
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error en la solicitud AJAX:");
+                    console.log("Estado: " + status);
+                    console.log("Error: " + error);
+                }
+            });
+        };
+        reader.readAsDataURL(response); // Convertir Blob a una URL de datos base64
+    }).fail(function (xhr, status, error) {
+        console.log("Error en la generación del código QR:");
+        console.log("Estado: " + status);
+        console.log("Error: " + error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No se pudo generar el código QR, favor de intentar más tarde.'
+        });
+    });
+}
+
+
 
     </script>
 

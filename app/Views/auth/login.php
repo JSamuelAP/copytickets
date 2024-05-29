@@ -42,7 +42,7 @@ $(document).ready(function() {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Favor De Llenar los datos solicitados'
+                        text: 'El usuario y/o contraseña son incorrectas.'
                     });
                 } else {
                     Swal.fire({

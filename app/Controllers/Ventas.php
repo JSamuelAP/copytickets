@@ -27,35 +27,34 @@ class Ventas extends BaseController
 
   function index($id)
   {
-    try{
-      if(isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 1){
+    try {
+      if (isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 1) {
         $data = ['titulo' => 'Historial de compras | CopyTickets 🎫',
-        'usuario' => $this->usuario->find($id),
-        'cartel' => $this->eventos->joinEventos($_SESSION['datos']['id'])];
+          'usuario' => $this->usuario->find($id),
+          'cartel' => $this->eventos->joinEventos($_SESSION['datos']['id'])];
         return view('ventas/index', $data);
-      }else{
+      } else {
         return redirect()->to('public/');
       }
-    }catch(Exception $e){
+    } catch (Exception $e) {
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
       return $this->response->setStatusCode(500)->setJSON([
         'error' => $e->getMessage()
       ]);
     }
-
   }
 
   function boleto($id)
   {
-    try{
-      if(isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 1){
+    try {
+      if (isset($_SESSION['datos']['rol']) && $_SESSION['datos']['rol'] == 1) {
         $data = ['titulo' => 'Boleto | CopyTickets 🎫',
-                  'cartel' => $this->eventos->joinEvento($id)];
+          'cartel' => $this->eventos->joinEvento($id)];
         return view('ventas/boleto', $data);
-      }else{
+      } else {
         return redirect()->to('public/');
       }
-    }catch(Exception $e){
+    } catch (Exception $e) {
       log_message('error', 'Error al procesar la solicitud' . $e->getMessage());
       return $this->response->setStatusCode(500)->setJSON([
         'error' => $e->getMessage()
@@ -63,71 +62,96 @@ class Ventas extends BaseController
     }
   }
 
-
-  public function pagarBoleto(){
+  public function pagarBoleto()
+  {
     try {
-        // Obtener datos del formulario
-        $data = [
-            "evento_id" => $this->request->getPost("evento_id"),
-            "usuario_id" => $this->request->getPost("usuario_id"),
-            "cantidad" => $this->request->getPost("numBoletos"),
-            "precio" => $this->request->getPost("precio"),
-            "total" => $this->request->getPost("total"),
-            "fecha" => $this->request->getPost("fecha"),
-            "hora" => $this->request->getPost("hora"),
-        ];
-        // Insertar datos en la base de datos
-        $boleto_id = $this->ventas->insert($data);
+      // Obtener datos del formulario
+      $data = [
+        "evento_id" => $this->request->getPost("evento_id"),
+        "usuario_id" => $this->request->getPost("usuario_id"),
+        "cantidad" => $this->request->getPost("numBoletos"),
+        "precio" => $this->request->getPost("precio"),
+        "total" => $this->request->getPost("total"),
+        "fecha" => $this->request->getPost("fecha"),
+        "hora" => $this->request->getPost("hora"),
+      ];
 
-        if ($boleto_id) {
-            $codigoQR = $this->request->getPost("codigoQR");
+      // Insertar datos en la base de datos
+      $boleto_id = $this->ventas->insert($data);
 
-            // Extraer la parte base64 del data URL
-            list(, $codigoQR) = explode(';', $codigoQR);
-            list(, $codigoQR) = explode(',', $codigoQR);
-            $codigoQR = base64_decode($codigoQR);
+      // Generar y guardar el boleto
+      $this->GenerarBoleto($boleto_id);
 
-            // Definir la ruta y nombre del archivo para guardar la imagen
-            $filePath = FCPATH . 'images/' . $boleto_id . '.png';
-            file_put_contents($filePath, $codigoQR);
-
-            // Guardar la URL de la imagen en la base de datos
-            $qrImgUrl = $boleto_id . '.png';
-            $data2 = [
-                "venta_id" => $boleto_id,
-                "evento_id" => $this->request->getPost("evento_id"),
-                "usuario_id" => $this->request->getPost("usuario_id"),
-                "qr_img_url" => $qrImgUrl
-            ];
-            $this->boletos->insert($data2);
-
-            return $this->response->setStatusCode(201)->setJSON([
-                'message' => 'Se insertó satisfactoriamente',
-                'qr_img_url' => $qrImgUrl  // Retornar la URL para verificar
-            ]);
-        }
+      return $this->response->setStatusCode(201)->setJSON([
+        'message' => 'Boleto creado satisfactoriamente',
+        'boleto_id' => $boleto_id  // Retornar el ID del boleto
+      ]);
     } catch (Exception $e) {
-        log_message('error', 'Error al procesar la solicitud: ' . $e->getMessage());
-        return $this->response->setStatusCode(500)->setJSON([
-            'error' => $e->getMessage()
-        ]);
+      log_message('error', 'Error al procesar la solicitud: ' . $e->getMessage());
+      return $this->response->setStatusCode(500)->setJSON([
+        'error' => $e->getMessage()
+      ]);
     }
   }
 
-  public function boletoPDF($id) {
+  function GenerarBoleto($boleto_id)
+  {
+    $codigoQR = $this->request->getPost("codigoQR");
+
+    // Verificar si el formato es válido para ambos posibles encabezados
+    if (strpos($codigoQR, 'data:image') === 0 || strpos($codigoQR, 'data:application/octet-stream') === 0) {
+      // Extraer la parte base64 del data URL
+      list($_, $codigoQR) = explode(';', $codigoQR);
+      list(, $codigoQR) = explode(',', $codigoQR);
+      $codigoQR = base64_decode($codigoQR);
+
+      // Definir la ruta y nombre del archivo para guardar la imagen
+      $filePath = FCPATH . 'images/' . $boleto_id . '.png';
+      file_put_contents($filePath, $codigoQR);
+
+      // Guardar la URL de la imagen en la base de datos
+      $qrImgUrl = $boleto_id . '.png';
+
+      // Obtener otros datos del formulario
+      $evento_id = $this->request->getPost("evento_id");
+      $usuario_id = $this->request->getPost("usuario_id");
+
+      $data2 = [
+        "id" => $boleto_id,
+        "venta_id" => $boleto_id,
+        "evento_id" => $evento_id,
+        "usuario_id" => $usuario_id,
+        "qr_img_url" => $qrImgUrl
+      ];
+      $this->boletos->insert($data2);
+
+      return $this->response->setStatusCode(201)->setJSON([
+        'message' => 'Se insertó satisfactoriamente',
+        'qr_img_url' => $qrImgUrl  // Retornar la URL para verificar
+      ]);
+    } else {
+      return $this->response->setStatusCode(400)->setJSON([
+        'error' => 'Formato de código QR inválido'
+      ]);
+    }
+  }
+
+
+  public function boletoPDF($id)
+  {
     try {
-        $options = new Options();
-        $options->set('isRemoteEnabled', true);
-        $dompdf = new Dompdf($options);
-        $data = ['cartel' => $this->eventos->joinEvento($id)];
-        $html = view('components/boletoCard', $data);
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper([0, 0, 290, 530]);
-        $dompdf->render();
-        $dompdf->stream("boleto.pdf", array("Attachment" => 0));
+      $options = new Options();
+      $options->set('isRemoteEnabled', true);
+      $dompdf = new Dompdf($options);
+      $data = ['cartel' => $this->eventos->joinEvento($id)];
+      $html = view('components/boletoCard', $data);
+      $dompdf->loadHtml($html);
+      $dompdf->setPaper([0, 0, 290, 530]);
+      $dompdf->render();
+      $dompdf->stream("boleto.pdf", array("Attachment" => 0));
     } catch (Exception $e) {
-        log_message('error', $e->getMessage());
-        return $this->response->setStatusCode(500)->setBody($e->getMessage());
+      log_message('error', $e->getMessage());
+      return $this->response->setStatusCode(500)->setBody($e->getMessage());
     }
   }
 }
