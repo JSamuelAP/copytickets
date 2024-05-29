@@ -105,7 +105,7 @@ $(document).ready(function() {
                         text: 'Click para continuar!',
                         icon: 'success',
                     }).then(() => {
-                        window.location.href = '<?= base_url('public/eventos/'.$editCartel['id'].'/editar')?>';
+                        window.location.href = '<?= base_url('public/eventos/'.$editCartel['id'])?>';
                     })
                 }
             },

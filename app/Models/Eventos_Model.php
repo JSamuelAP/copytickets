@@ -39,4 +39,9 @@ function joinEvento($id){
   return $consulta;
 }
 
+function Categorias(){
+  $consulta = $this->select('categoria')
+  ->find();
+  return $consulta;
+}
 }
