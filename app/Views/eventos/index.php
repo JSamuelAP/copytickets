@@ -4,32 +4,40 @@
 <?= $this->section('contenido') ?>
 <section class="mt-4">
     <h2>Categorías</h2>
-    <div class="d-flex justify-content-center gap-5">
-        <button class="btn">
-            <img src="<?= base_url('public/images/icono-categoria-musica.svg') ?>"
-                 alt="Nota musical icono" width="64"
-                 height="64"><br>
-            <span>Conciertos y festivales</span>
-        </button>
-        <button class="btn">
-            <img src="<?= base_url('public/images/icono-categoria-teatro.svg') ?>"
-                 alt="teatro icono" width="64"
-                 height="64"><br>
-            <span>Teatro, Comedia y Cultura</span>
-        </button>
-        <button class="btn">
-            <img src="<?= base_url('public/images/icono-categoria-conferencia.svg') ?>"
-                 alt="Hombre dando conferencia icono" width="64"
-                 height="64"><br>
-            <span>Conferencias y talleres</span>
-        </button>
-        <button class="btn">
-            <img src="<?= base_url('public/images/icono-categoria-otros.svg') ?>"
-                 alt="ticket icono"
-                 width="64"
-                 height="64"><br>
-            <span>Otros</span>
-        </button>
+    <div class="row">
+        <div class="col-6 col-lg-3 text-center">
+            <button class="btn">
+                <img src="<?= base_url('public/images/icono-categoria-musica.svg') ?>"
+                     alt="Nota musical icono" width="64"
+                     height="64"><br>
+                <span>Conciertos y festivales</span>
+            </button>
+        </div>
+        <div class="col-6 col-lg-3 text-center">
+            <button class="btn">
+                <img src="<?= base_url('public/images/icono-categoria-teatro.svg') ?>"
+                     alt="teatro icono" width="64"
+                     height="64"><br>
+                <span>Teatro, Comedia y Cultura</span>
+            </button>
+        </div>
+        <div class="col-6 col-lg-3 text-center">
+            <button class="btn">
+                <img src="<?= base_url('public/images/icono-categoria-conferencia.svg') ?>"
+                     alt="Hombre dando conferencia icono" width="64"
+                     height="64"><br>
+                <span>Conferencias y talleres</span>
+            </button>
+        </div>
+        <div class="col-6 col-lg-3 text-center">
+            <button class="btn">
+                <img src="<?= base_url('public/images/icono-categoria-otros.svg') ?>"
+                     alt="ticket icono"
+                     width="64"
+                     height="64"><br>
+                <span>Otros</span>
+            </button>
+        </div>
     </div>
 </section>
 <section class="mt-5 mb-5">
