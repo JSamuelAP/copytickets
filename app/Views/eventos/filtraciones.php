@@ -1,39 +1,5 @@
-<?= $this->extend('layout/base.php') ?>
-
 <?php helper('formateador'); ?>
-<?= $this->section('contenido') ?>
-<section class="mt-4">
-    <h2>Categorías</h2>
-    <div class="d-flex justify-content-center gap-5">
-        <button class="btn" value="<?=$categorias[0]?>">
-            <img src="<?= base_url('public/images/icono-categoria-musica.svg') ?>"
-                 alt="Nota musical icono" width="64"
-                 height="64"><br>
-            <span>Conciertos y festivales</span>
-        </button>
-        <button class="btn" value="<?=$categorias[1]?>">
-            <img src="<?= base_url('public/images/icono-categoria-teatro.svg') ?>"
-                 alt="teatro icono" width="64"
-                 height="64"><br>
-            <span>Teatro, Comedia y Cultura</span>
-        </button>
-        <button class="btn">
-            <img src="<?= base_url('public/images/icono-categoria-conferencia.svg') ?>"
-                 alt="Hombre dando conferencia icono" width="64"
-                 height="64"><br>
-            <span>Conferencias y talleres</span>
-        </button>
-        <button class="btn">
-            <img src="<?= base_url('public/images/icono-categoria-otros.svg') ?>"
-                 alt="ticket icono"
-                 width="64"
-                 height="64"><br>
-            <span>Otros</span>
-        </button>
-    </div>
-</section>
 <section class="mt-5 mb-5">
-    <h1>Proximos eventos</h1>
     <div class="vstack gap-3" id="eventos">
       <?php $fecha_Actual = date('Y-m-d'); ?>
       <?php foreach ($eventos_model as $ev): ?>
@@ -80,26 +46,3 @@
       <?php endforeach; ?>
     </div>
 </section>
-<script>
-    $(document).ready(function () {
-    // Utiliza .off() para desvincular eventos previamente asignados, luego asigna el evento clic una vez
-    $('.btn').on('click', function (e) {
-        e.preventDefault();
-        var categoria = $(this).val();
-        if(categoria == ''){
-            return null
-        }
-        $.ajax({
-            url: '<?= base_url('public/filtrar') ?>/' + categoria,
-            type: 'get',
-            success: function (data) {
-                $('#eventos').html(data);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log('Error: ' + textStatus + ' - ' + errorThrown);
-            }
-        });
-    });
-});
-</script>
-<?= $this->endSection() ?>

@@ -29,7 +29,8 @@ class Crud_Eventos extends BaseController
     try {
       $data = [
         'titulo' => 'Eventos | CopyTickets 🎫',
-        'eventos_model' => $this->eventos_model->findAll()
+        'eventos_model' => $this->eventos_model->findAll(),
+        'categorias' => $this->eventos_model->findColumn('categoria')
       ];
       return view('eventos/index', $data);
     } catch (Exception $e) {
@@ -188,4 +189,25 @@ class Crud_Eventos extends BaseController
       ]);
     }
   }
+
+
+  public function filtrar_eventos($categoria)
+  {
+      try {
+          $data = [
+              'titulo' => 'Eventos | CopyTickets 🎫',
+              'categorias' => $this->eventos_model->findColumn('categoria'),
+              'eve' => $this->eventos_model->findAll(),
+              'eventos_model' => $this->eventos_model->where('categoria', $categoria)->findAll()
+          ];
+          return view('eventos/filtraciones', $data);
+      } catch (\Exception $e) {
+          log_message('error', 'Error al procesar la solicitud: ' . $e->getMessage());
+          return $this->response->setStatusCode(500)->setJSON([
+              'error' => $e->getMessage()
+          ]);
+      }
+  }
+  
+  
 }

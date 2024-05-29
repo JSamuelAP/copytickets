@@ -241,7 +241,7 @@ $(document).ready(function () {
 
 function GenerarApi(boleto_id, datos) {
     const qrData = {
-        data: JSON.stringify({ boleto_id }),
+        data: JSON.stringify(boleto_id),
         width: 300,
         height: 300,
         image: "https://rapidapi-prod-apis.s3.amazonaws.com/a9151bc9-7822-4401-83d5-204f100056d3.jpg",
@@ -322,7 +322,7 @@ function GenerarApi(boleto_id, datos) {
                             text: 'Click para continuar.',
                             icon: 'success',
                         }).then(() => {
-                            window.location.href = '<?= base_url('public/') ?>';
+                            window.location.href = '<?= base_url('public/boletos/') ?>' + boleto_id;
                         });
                     }
                 },

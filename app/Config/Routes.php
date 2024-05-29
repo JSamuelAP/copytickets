@@ -8,7 +8,11 @@ use CodeIgniter\Router\RouteCollection;
 
 //Ruta para vistas
 $routes->get('/', 'Crud_Eventos::contMostrar_Eventos');
+$routes->get('filtrar/(:alpha)', 'Crud_Eventos::filtrar_eventos/$1');
+
 $routes->get('eventos/(:num)', 'Crud_Eventos::contMostrar_Evento/$1');
+
+
 $routes->get(
   'eventos/(:num)/estadisticas',
   'Crud_Eventos::contMostrar_estadisticas/$1'
