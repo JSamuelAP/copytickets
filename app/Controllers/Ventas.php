@@ -42,7 +42,6 @@ class Ventas extends BaseController
         'error' => $e->getMessage()
       ]);
     }
-
   }
 
   function boleto($id)
